@@ -122,6 +122,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Stats Counter */}
+      <StatsCounter />
+
       {/* Featured Work */}
       {featured.length > 0 && (
         <section className="py-24">

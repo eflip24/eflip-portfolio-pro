@@ -70,27 +70,33 @@ export type Database = {
       }
       contact_submissions: {
         Row: {
+          budget_range: string | null
           created_at: string
           email: string
           id: string
           message: string
           name: string
+          service_type: string | null
           status: Database["public"]["Enums"]["submission_status"]
         }
         Insert: {
+          budget_range?: string | null
           created_at?: string
           email: string
           id?: string
           message: string
           name: string
+          service_type?: string | null
           status?: Database["public"]["Enums"]["submission_status"]
         }
         Update: {
+          budget_range?: string | null
           created_at?: string
           email?: string
           id?: string
           message?: string
           name?: string
+          service_type?: string | null
           status?: Database["public"]["Enums"]["submission_status"]
         }
         Relationships: []

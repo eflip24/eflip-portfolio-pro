@@ -51,66 +51,6 @@ const Admin = () => {
     setProjects(data || []);
   };
 
-  const uploadImage = async (file: File): Promise<string | null> => {
-    const ext = file.name.split(".").pop();
-    const path = `${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("project-images").upload(path, file);
-    if (error) {
-      toast.error("IMAGE UPLOAD FAILED");
-      return null;
-    }
-    const { data } = supabase.storage.from("project-images").getPublicUrl(path);
-    return data.publicUrl;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    let imageUrl = form.image_url;
-    if (imageFile) {
-      const url = await uploadImage(imageFile);
-      if (url) imageUrl = url;
-    }
-
-    const payload = {
-      client_name: form.client_name,
-      description: form.description,
-      category: form.category,
-      project_url: form.project_url || null,
-      image_url: imageUrl || null,
-    };
-
-    if (editId) {
-      const { error } = await supabase.from("projects").update(payload).eq("id", editId);
-      if (error) toast.error(error.message);
-      else toast.success("PROJECT UPDATED");
-    } else {
-      const { error } = await supabase.from("projects").insert(payload);
-      if (error) toast.error(error.message);
-      else toast.success("PROJECT ADDED");
-    }
-
-    setForm(emptyForm);
-    setEditId(null);
-    setImageFile(null);
-    setDialogOpen(false);
-    setLoading(false);
-    fetchProjects();
-  };
-
-  const handleEdit = (p: Project) => {
-    setForm({
-      client_name: p.client_name,
-      description: p.description,
-      category: p.category,
-      project_url: p.project_url || "",
-      image_url: p.image_url || "",
-    });
-    setEditId(p.id);
-    setDialogOpen(true);
-  };
-
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("projects").delete().eq("id", id);
     if (error) toast.error(error.message);

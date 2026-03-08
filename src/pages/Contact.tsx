@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import SEOHead from "@/components/SEOHead";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),

@@ -102,12 +102,46 @@ const AdminProjectEdit = () => {
     setLoading(false);
   };
 
+  const convertToWebP = (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) { reject(new Error("Canvas not supported")); return; }
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) { reject(new Error("Conversion failed")); return; }
+              resolve(new File([blob], file.name.replace(/\.[^.]+$/, ".webp"), { type: "image/webp" }));
+            },
+            "image/webp",
+            0.85
+          );
+        };
+        img.onerror = () => reject(new Error("Image load failed"));
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error("File read failed"));
+      reader.readAsDataURL(file);
+    });
+  };
+
   const uploadImage = async (file: File): Promise<string | null> => {
-    const ext = file.name.split(".").pop();
-    const path = `${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("project-images").upload(path, file);
-    if (error) { toast.error("UPLOAD FAILED"); return null; }
-    return supabase.storage.from("project-images").getPublicUrl(path).data.publicUrl;
+    try {
+      const webpFile = await convertToWebP(file);
+      const path = `${crypto.randomUUID()}.webp`;
+      const { error } = await supabase.storage.from("project-images").upload(path, webpFile);
+      if (error) { toast.error("UPLOAD FAILED"); return null; }
+      return supabase.storage.from("project-images").getPublicUrl(path).data.publicUrl;
+    } catch {
+      toast.error("IMAGE CONVERSION FAILED");
+      return null;
+    }
   };
 
   const handleSave = async () => {

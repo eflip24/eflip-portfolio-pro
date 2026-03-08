@@ -7,6 +7,7 @@ import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import ProjectDetailSkeleton from "@/components/ProjectDetailSkeleton";
 import DOMPurify from "dompurify";
 
 interface Project {
@@ -40,6 +41,7 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const [project, setProject] = useState<Project | null>(null);
   const [sections, setSections] = useState<Section[]>([]);
+  const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
   const [prevNext, setPrevNext] = useState<{ prev: string | null; next: string | null }>({ prev: null, next: null });
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState<string | null>(null);
@@ -51,18 +53,29 @@ const ProjectDetail = () => {
       setProject(data as any);
 
       if (data) {
-        const { data: secs } = await supabase
-          .from("project_sections")
-          .select("*")
-          .eq("project_id", id!)
-          .order("sort_order", { ascending: true });
-        setSections((secs as any) || []);
+        const [{ data: secs }, { data: allProjects }, { data: related }] = await Promise.all([
+          supabase
+            .from("project_sections")
+            .select("*")
+            .eq("project_id", id!)
+            .order("sort_order", { ascending: true }),
+          supabase
+            .from("projects")
+            .select("id, created_at")
+            .eq("published", true)
+            .order("created_at", { ascending: false }),
+          supabase
+            .from("projects")
+            .select("*")
+            .eq("category", (data as any).category)
+            .eq("published", true)
+            .neq("id", id!)
+            .limit(3),
+        ]);
 
-        // Get prev/next
-        const { data: allProjects } = await supabase
-          .from("projects")
-          .select("id, created_at")
-          .order("created_at", { ascending: false });
+        setSections((secs as any) || []);
+        setRelatedProjects((related as any) || []);
+
         if (allProjects) {
           const idx = allProjects.findIndex((p: any) => p.id === id);
           setPrevNext({
@@ -79,9 +92,7 @@ const ProjectDetail = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-[60vh] flex items-center justify-center text-muted-foreground tracking-widest">
-          LOADING...
-        </div>
+        <ProjectDetailSkeleton />
       </Layout>
     );
   }
@@ -115,7 +126,6 @@ const ProjectDetail = () => {
             )}
           </div>
         );
-
       case "two-column":
         return (
           <div key={section.id} className="mb-12">
@@ -136,7 +146,6 @@ const ProjectDetail = () => {
             </div>
           </div>
         );
-
       case "gallery":
         return (
           <div key={section.id} className="mb-12">
@@ -157,7 +166,6 @@ const ProjectDetail = () => {
             )}
           </div>
         );
-
       case "code-showcase":
         return (
           <div key={section.id} className="mb-12">
@@ -174,7 +182,6 @@ const ProjectDetail = () => {
             )}
           </div>
         );
-
       default:
         return null;
     }
@@ -188,7 +195,6 @@ const ProjectDetail = () => {
         image={project.seo_image || project.image_url || undefined}
       />
 
-      {/* Lightbox */}
       {lightbox && (
         <div
           className="fixed inset-0 z-50 bg-background/90 flex items-center justify-center p-8 cursor-pointer"
@@ -225,11 +231,7 @@ const ProjectDetail = () => {
 
             {project.image_url && (
               <div className="aspect-video overflow-hidden border border-border mb-8">
-                <img
-                  src={project.image_url}
-                  alt={project.client_name}
-                  className="w-full h-full object-cover"
-                />
+                <img src={project.image_url} alt={project.client_name} className="w-full h-full object-cover" />
               </div>
             )}
 
@@ -245,14 +247,12 @@ const ProjectDetail = () => {
               </Button>
             )}
 
-            {/* Sections */}
             {sections.length > 0 && (
               <div className="mt-12 border-t border-border pt-12">
                 {sections.map(renderSection)}
               </div>
             )}
 
-            {/* Testimonial */}
             {project.testimonial && (
               <div className="mt-12 border border-primary/20 p-8 relative">
                 <Quote className="text-primary/30 absolute top-4 left-4" size={32} />
@@ -284,6 +284,48 @@ const ProjectDetail = () => {
                 </Button>
               ) : <div />}
             </div>
+
+            {/* Related Projects */}
+            {relatedProjects.length > 0 && (
+              <div className="mt-16 border-t border-border pt-12">
+                <h2 className="text-2xl font-bold tracking-widest mb-8">
+                  RELATED <span className="text-primary">PROJECTS</span>
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {relatedProjects.map((rp) => (
+                    <Link key={rp.id} to={`/portfolio/${rp.id}`}>
+                      <motion.div
+                        className="group overflow-hidden bg-card border border-border"
+                        whileHover={{ y: -6 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="aspect-video bg-secondary overflow-hidden">
+                          {rp.image_url ? (
+                            <img
+                              src={rp.image_url}
+                              alt={rp.client_name}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs tracking-widest">
+                              NO IMAGE
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-4">
+                          <Badge variant="outline" className="text-primary border-primary mb-2 text-[10px] tracking-widest">
+                            {rp.category.toUpperCase()}
+                          </Badge>
+                          <h3 className="text-sm font-bold tracking-wider">
+                            {rp.client_name.toUpperCase()}
+                          </h3>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </motion.div>
         </div>
       </section>

@@ -77,73 +77,12 @@ const Admin = () => {
           </Button>
         </div>
 
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button
-              className="mb-8 tracking-widest glow-orange"
-              onClick={() => { setForm(emptyForm); setEditId(null); setImageFile(null); }}
-            >
-              <Plus size={14} className="mr-2" /> ADD PROJECT
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-card border-border">
-            <DialogHeader>
-              <DialogTitle className="tracking-widest">
-                {editId ? "EDIT PROJECT" : "ADD PROJECT"}
-              </DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                placeholder="CLIENT NAME"
-                value={form.client_name}
-                onChange={(e) => setForm({ ...form, client_name: e.target.value })}
-                className="bg-secondary border-border text-xs tracking-wider"
-                required
-              />
-              <Textarea
-                placeholder="DESCRIPTION"
-                value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="bg-secondary border-border text-xs tracking-wider"
-                required
-              />
-              <Select
-                value={form.category}
-                onValueChange={(v) => setForm({ ...form, category: v })}
-              >
-                <SelectTrigger className="bg-secondary border-border text-xs tracking-wider">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="web">WEB</SelectItem>
-                  <SelectItem value="games">GAMES</SelectItem>
-                  <SelectItem value="print">PRINT</SelectItem>
-                  <SelectItem value="video">VIDEO</SelectItem>
-                </SelectContent>
-              </Select>
-              <Input
-                placeholder="PROJECT URL (OPTIONAL)"
-                value={form.project_url}
-                onChange={(e) => setForm({ ...form, project_url: e.target.value })}
-                className="bg-secondary border-border text-xs tracking-wider"
-              />
-              <div>
-                <label className="text-xs tracking-widest text-muted-foreground block mb-2">
-                  PROJECT IMAGE
-                </label>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-                  className="bg-secondary border-border text-xs"
-                />
-              </div>
-              <Button type="submit" className="w-full tracking-widest glow-orange" disabled={loading}>
-                {loading ? "SAVING..." : editId ? "UPDATE" : "ADD PROJECT"}
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button
+          className="mb-8 tracking-widest glow-orange"
+          onClick={() => navigate("/admin/project/new")}
+        >
+          <Plus size={14} className="mr-2" /> ADD PROJECT
+        </Button>
 
         {/* Projects list */}
         <div className="space-y-4">

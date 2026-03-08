@@ -3,20 +3,9 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import GeometricMesh from "@/components/GeometricMesh";
 
 const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
-
-const FloatingShape = ({ className }: { className: string }) => (
-  <motion.div
-    className={`absolute border border-primary/20 ${className}`}
-    animate={{
-      y: [0, -20, 0],
-      rotate: [0, 10, 0],
-      opacity: [0.3, 0.6, 0.3],
-    }}
-    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-  />
-);
 
 const Index = () => {
   return (

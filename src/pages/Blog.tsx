@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
+import { Clock, User } from "lucide-react";
 import Layout from "@/components/Layout";
 import SEOHead from "@/components/SEOHead";
 import ScrollReveal from "@/components/ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface BlogPost {
@@ -15,6 +17,9 @@ interface BlogPost {
   excerpt: string;
   cover_image: string | null;
   created_at: string;
+  author: string | null;
+  read_time: number | null;
+  tags: string[] | null;
 }
 
 const Blog = () => {
@@ -22,16 +27,16 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchPosts = async () => {
       const { data } = await supabase
         .from("blog_posts")
-        .select("id, title, slug, excerpt, cover_image, created_at")
+        .select("id, title, slug, excerpt, cover_image, created_at, author, read_time, tags")
         .eq("published", true)
         .order("created_at", { ascending: false });
       setPosts(data || []);
       setLoading(false);
     };
-    fetch();
+    fetchPosts();
   }, []);
 
   return (
@@ -92,15 +97,34 @@ const Blog = () => {
                         )}
                       </div>
                       <div className="p-6">
-                        <p className="text-[10px] text-muted-foreground tracking-widest mb-2">
-                          {format(new Date(post.created_at), "MMMM d, yyyy").toUpperCase()}
-                        </p>
+                        <div className="flex flex-wrap items-center gap-2 text-[10px] text-muted-foreground tracking-widest mb-2">
+                          <span>{format(new Date(post.created_at), "MMMM d, yyyy").toUpperCase()}</span>
+                          {post.author && (
+                            <span className="flex items-center gap-1">
+                              <User size={8} /> {post.author.toUpperCase()}
+                            </span>
+                          )}
+                          {post.read_time && (
+                            <span className="flex items-center gap-1">
+                              <Clock size={8} /> {post.read_time} MIN
+                            </span>
+                          )}
+                        </div>
                         <h2 className="text-base font-bold tracking-wider mb-2 group-hover:text-primary transition-colors">
                           {post.title.toUpperCase()}
                         </h2>
-                        <p className="text-muted-foreground text-sm tracking-wider line-clamp-3">
+                        <p className="text-muted-foreground text-sm tracking-wider line-clamp-3 mb-3">
                           {post.excerpt}
                         </p>
+                        {post.tags && post.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {post.tags.slice(0, 3).map(tag => (
+                              <Badge key={tag} variant="secondary" className="text-[9px] tracking-widest">
+                                {tag.toUpperCase()}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   </Link>

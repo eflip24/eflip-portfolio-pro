@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Clock, User } from "lucide-react";
 import { format } from "date-fns";
 import DOMPurify from "dompurify";
 import Layout from "@/components/Layout";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Post {
@@ -18,6 +19,12 @@ interface Post {
   excerpt: string;
   cover_image: string | null;
   created_at: string;
+  author: string | null;
+  read_time: number | null;
+  tags: string[] | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  seo_image: string | null;
 }
 
 const BlogPost = () => {
@@ -37,6 +44,13 @@ const BlogPost = () => {
       setLoading(false);
     };
     fetchPost();
+  }, [slug]);
+
+  // Track page view
+  useEffect(() => {
+    if (slug) {
+      supabase.from("page_views").insert({ page_path: `/blog/${slug}` });
+    }
   }, [slug]);
 
   if (loading) {
@@ -75,9 +89,9 @@ const BlogPost = () => {
   return (
     <Layout>
       <SEOHead
-        title={post.title}
-        description={post.excerpt}
-        image={post.cover_image || undefined}
+        title={post.seo_title || post.title}
+        description={post.seo_description || post.excerpt}
+        image={post.seo_image || post.cover_image || undefined}
       />
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -89,13 +103,33 @@ const BlogPost = () => {
               <ArrowLeft className="mr-2" size={14} /> BACK TO BLOG
             </Link>
 
-            <p className="text-[10px] text-muted-foreground tracking-widest mb-4">
-              {format(new Date(post.created_at), "MMMM d, yyyy").toUpperCase()}
-            </p>
+            <div className="flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground tracking-widest mb-4">
+              <span>{format(new Date(post.created_at), "MMMM d, yyyy").toUpperCase()}</span>
+              {post.author && (
+                <span className="flex items-center gap-1">
+                  <User size={10} /> {post.author.toUpperCase()}
+                </span>
+              )}
+              {post.read_time && (
+                <span className="flex items-center gap-1">
+                  <Clock size={10} /> {post.read_time} MIN READ
+                </span>
+              )}
+            </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold tracking-widest mb-8">
+            <h1 className="text-3xl md:text-5xl font-bold tracking-widest mb-4">
               {post.title.toUpperCase()}
             </h1>
+
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-8">
+                {post.tags.map(tag => (
+                  <Badge key={tag} variant="secondary" className="text-[10px] tracking-widest">
+                    {tag.toUpperCase()}
+                  </Badge>
+                ))}
+              </div>
+            )}
 
             {post.cover_image && (
               <div className="aspect-video overflow-hidden border border-border mb-10">

@@ -23,6 +23,7 @@ interface Project {
   tags: string[] | null;
   testimonial: string | null;
   testimonial_author: string | null;
+  button_label: string | null;
 }
 
 interface Section {

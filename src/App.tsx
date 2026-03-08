@@ -12,9 +12,12 @@ import ProjectDetail from "./pages/ProjectDetail";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import AdminProjectEdit from "./pages/AdminProjectEdit";
+import AdminBlogEdit from "./pages/AdminBlogEdit";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,9 +33,12 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+        <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
+        <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />
         <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
         <Route path="/admin/project/:id" element={<PageTransition><AdminProjectEdit /></PageTransition>} />
+        <Route path="/admin/blog/:id" element={<PageTransition><AdminBlogEdit /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>

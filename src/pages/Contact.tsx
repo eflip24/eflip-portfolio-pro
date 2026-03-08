@@ -21,7 +21,16 @@ type FormData = z.infer<typeof schema>;
 const Contact = () => {
   const form = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    const { error } = await supabase.from("contact_submissions").insert({
+      name: data.name,
+      email: data.email,
+      message: data.message,
+    });
+    if (error) {
+      toast.error("FAILED TO SEND. PLEASE TRY AGAIN.");
+      return;
+    }
     toast.success("MESSAGE SENT! WE'LL BE IN TOUCH.");
     form.reset();
   };

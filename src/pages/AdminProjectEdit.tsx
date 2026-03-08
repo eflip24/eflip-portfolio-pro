@@ -15,6 +15,7 @@ interface ProjectForm {
   description: string;
   category: string;
   project_url: string;
+  button_label: string;
   image_url: string;
   seo_title: string;
   seo_description: string;

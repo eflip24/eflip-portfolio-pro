@@ -1,0 +1,1 @@
+ALTER TABLE public.projects ADD COLUMN button_label text DEFAULT NULL;

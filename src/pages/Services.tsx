@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Globe, Gamepad2, Printer, Video } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
+import SEOHead from "@/components/SEOHead";
 
 const services = [
   {

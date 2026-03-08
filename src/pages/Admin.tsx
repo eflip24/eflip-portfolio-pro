@@ -15,15 +15,8 @@ interface Project {
   created_at: string;
 }
 
-const emptyForm = { client_name: "", description: "", category: "web", project_url: "", image_url: "" };
-
 const Admin = () => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [form, setForm] = useState(emptyForm);
-  const [editId, setEditId] = useState<string | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {

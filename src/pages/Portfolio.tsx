@@ -5,6 +5,7 @@ import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import SEOHead from "@/components/SEOHead";
 
 interface Project {
   id: string;
@@ -41,6 +42,7 @@ const Portfolio = () => {
 
   return (
     <Layout>
+      <SEOHead title="Portfolio" description="Explore eFlip's portfolio of bold websites, games, print designs, and video productions." />
       <section className="py-24">
         <div className="container mx-auto px-4">
           <motion.h1

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Globe, Gamepad2, Printer, Video } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
+import SEOHead from "@/components/SEOHead";
 
 const services = [
   {
@@ -28,6 +29,7 @@ const services = [
 
 const Services = () => (
   <Layout>
+    <SEOHead title="Services" description="Web design, game design, print design, and video production — eFlip delivers exceptional creative solutions." />
     <section className="py-24">
       <div className="container mx-auto px-4">
         <motion.h1

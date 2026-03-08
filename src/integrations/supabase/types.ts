@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      project_sections: {
+        Row: {
+          content_left: string | null
+          content_right: string | null
+          created_at: string
+          id: string
+          image_urls: string[] | null
+          layout: string
+          project_id: string
+          sort_order: number
+          title: string | null
+        }
+        Insert: {
+          content_left?: string | null
+          content_right?: string | null
+          created_at?: string
+          id?: string
+          image_urls?: string[] | null
+          layout?: string
+          project_id: string
+          sort_order?: number
+          title?: string | null
+        }
+        Update: {
+          content_left?: string | null
+          content_right?: string | null
+          created_at?: string
+          id?: string
+          image_urls?: string[] | null
+          layout?: string
+          project_id?: string
+          sort_order?: number
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_sections_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           category: string
@@ -23,6 +67,12 @@ export type Database = {
           id: string
           image_url: string | null
           project_url: string | null
+          seo_description: string | null
+          seo_image: string | null
+          seo_title: string | null
+          tags: string[] | null
+          testimonial: string | null
+          testimonial_author: string | null
         }
         Insert: {
           category: string
@@ -32,6 +82,12 @@ export type Database = {
           id?: string
           image_url?: string | null
           project_url?: string | null
+          seo_description?: string | null
+          seo_image?: string | null
+          seo_title?: string | null
+          tags?: string[] | null
+          testimonial?: string | null
+          testimonial_author?: string | null
         }
         Update: {
           category?: string
@@ -41,6 +97,12 @@ export type Database = {
           id?: string
           image_url?: string | null
           project_url?: string | null
+          seo_description?: string | null
+          seo_image?: string | null
+          seo_title?: string | null
+          tags?: string[] | null
+          testimonial?: string | null
+          testimonial_author?: string | null
         }
         Relationships: []
       }

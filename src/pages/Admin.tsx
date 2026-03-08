@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Trash2, Edit, LogOut, Plus } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 interface Project {
   id: string;
@@ -19,15 +15,8 @@ interface Project {
   created_at: string;
 }
 
-const emptyForm = { client_name: "", description: "", category: "web", project_url: "", image_url: "" };
-
 const Admin = () => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [form, setForm] = useState(emptyForm);
-  const [editId, setEditId] = useState<string | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,66 +51,6 @@ const Admin = () => {
     setProjects(data || []);
   };
 
-  const uploadImage = async (file: File): Promise<string | null> => {
-    const ext = file.name.split(".").pop();
-    const path = `${crypto.randomUUID()}.${ext}`;
-    const { error } = await supabase.storage.from("project-images").upload(path, file);
-    if (error) {
-      toast.error("IMAGE UPLOAD FAILED");
-      return null;
-    }
-    const { data } = supabase.storage.from("project-images").getPublicUrl(path);
-    return data.publicUrl;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    let imageUrl = form.image_url;
-    if (imageFile) {
-      const url = await uploadImage(imageFile);
-      if (url) imageUrl = url;
-    }
-
-    const payload = {
-      client_name: form.client_name,
-      description: form.description,
-      category: form.category,
-      project_url: form.project_url || null,
-      image_url: imageUrl || null,
-    };
-
-    if (editId) {
-      const { error } = await supabase.from("projects").update(payload).eq("id", editId);
-      if (error) toast.error(error.message);
-      else toast.success("PROJECT UPDATED");
-    } else {
-      const { error } = await supabase.from("projects").insert(payload);
-      if (error) toast.error(error.message);
-      else toast.success("PROJECT ADDED");
-    }
-
-    setForm(emptyForm);
-    setEditId(null);
-    setImageFile(null);
-    setDialogOpen(false);
-    setLoading(false);
-    fetchProjects();
-  };
-
-  const handleEdit = (p: Project) => {
-    setForm({
-      client_name: p.client_name,
-      description: p.description,
-      category: p.category,
-      project_url: p.project_url || "",
-      image_url: p.image_url || "",
-    });
-    setEditId(p.id);
-    setDialogOpen(true);
-  };
-
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("projects").delete().eq("id", id);
     if (error) toast.error(error.message);
@@ -148,73 +77,12 @@ const Admin = () => {
           </Button>
         </div>
 
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button
-              className="mb-8 tracking-widest glow-orange"
-              onClick={() => { setForm(emptyForm); setEditId(null); setImageFile(null); }}
-            >
-              <Plus size={14} className="mr-2" /> ADD PROJECT
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-card border-border">
-            <DialogHeader>
-              <DialogTitle className="tracking-widest">
-                {editId ? "EDIT PROJECT" : "ADD PROJECT"}
-              </DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                placeholder="CLIENT NAME"
-                value={form.client_name}
-                onChange={(e) => setForm({ ...form, client_name: e.target.value })}
-                className="bg-secondary border-border text-xs tracking-wider"
-                required
-              />
-              <Textarea
-                placeholder="DESCRIPTION"
-                value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="bg-secondary border-border text-xs tracking-wider"
-                required
-              />
-              <Select
-                value={form.category}
-                onValueChange={(v) => setForm({ ...form, category: v })}
-              >
-                <SelectTrigger className="bg-secondary border-border text-xs tracking-wider">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="web">WEB</SelectItem>
-                  <SelectItem value="games">GAMES</SelectItem>
-                  <SelectItem value="print">PRINT</SelectItem>
-                  <SelectItem value="video">VIDEO</SelectItem>
-                </SelectContent>
-              </Select>
-              <Input
-                placeholder="PROJECT URL (OPTIONAL)"
-                value={form.project_url}
-                onChange={(e) => setForm({ ...form, project_url: e.target.value })}
-                className="bg-secondary border-border text-xs tracking-wider"
-              />
-              <div>
-                <label className="text-xs tracking-widest text-muted-foreground block mb-2">
-                  PROJECT IMAGE
-                </label>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-                  className="bg-secondary border-border text-xs"
-                />
-              </div>
-              <Button type="submit" className="w-full tracking-widest glow-orange" disabled={loading}>
-                {loading ? "SAVING..." : editId ? "UPDATE" : "ADD PROJECT"}
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button
+          className="mb-8 tracking-widest glow-orange"
+          onClick={() => navigate("/admin/project/new")}
+        >
+          <Plus size={14} className="mr-2" /> ADD PROJECT
+        </Button>
 
         {/* Projects list */}
         <div className="space-y-4">
@@ -227,7 +95,7 @@ const Admin = () => {
                 <h3 className="font-bold tracking-widest text-sm">{p.client_name.toUpperCase()}</h3>
                 <p className="text-muted-foreground text-xs tracking-wider truncate">{p.category.toUpperCase()}</p>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => handleEdit(p)}>
+              <Button variant="ghost" size="icon" onClick={() => navigate(`/admin/project/${p.id}`)}>
                 <Edit size={14} />
               </Button>
               <Button variant="ghost" size="icon" onClick={() => handleDelete(p.id)}>

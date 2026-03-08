@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import SEOHead from "@/components/SEOHead";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -27,6 +28,7 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEOHead title="Contact" description="Get in touch with eFlip. Let's create something extraordinary together." />
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-xl">
           <motion.h1

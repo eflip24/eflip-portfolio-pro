@@ -270,7 +270,7 @@ const AdminBlogEdit = () => {
             <div className="border border-border bg-card p-4 rounded-sm">
               <p className="text-[10px] text-muted-foreground tracking-widest mb-2">SEARCH PREVIEW</p>
               <p className="text-sm text-primary truncate">{seoTitle}</p>
-              <p className="text-xs text-green-500 truncate">{seoUrl}</p>
+              <p className="text-xs text-primary/70 truncate">{seoUrl}</p>
               <p className="text-xs text-muted-foreground line-clamp-2">{seoDesc}</p>
             </div>
           </CollapsibleContent>

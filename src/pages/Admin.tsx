@@ -2,19 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
-} from "@/components/ui/table";
-import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
-  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Trash2, Edit, LogOut, Plus, Eye, Search, FolderOpen, Layers } from "lucide-react";
-import { format } from "date-fns";
+import { LogOut, Layers, Mail } from "lucide-react";
+import AdminProjects from "@/components/admin/AdminProjects";
+import AdminInquiries from "@/components/admin/AdminInquiries";
+
+const CATEGORIES = ["Web", "Games", "Print", "Video"];
 
 interface Project {
   id: string;
@@ -24,20 +19,20 @@ interface Project {
   project_url: string | null;
   image_url: string | null;
   tags: string[] | null;
+  published: boolean;
+  sort_order: number;
   created_at: string;
 }
 
-const CATEGORIES = ["Web", "Games", "Print", "Video"];
-
 const Admin = () => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [search, setSearch] = useState("");
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [inquiryCount, setInquiryCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     checkAuth();
     fetchProjects();
+    fetchInquiryCount();
   }, []);
 
   const checkAuth = async () => {
@@ -56,26 +51,21 @@ const Admin = () => {
   const fetchProjects = async () => {
     const { data } = await supabase
       .from("projects").select("*").order("created_at", { ascending: false });
-    setProjects(data || []);
+    setProjects((data as Project[]) || []);
   };
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    const { error } = await supabase.from("projects").delete().eq("id", deleteId);
-    if (error) toast.error(error.message);
-    else { toast.success("PROJECT DELETED"); fetchProjects(); }
-    setDeleteId(null);
+  const fetchInquiryCount = async () => {
+    const { count } = await supabase
+      .from("contact_submissions")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "new");
+    setInquiryCount(count || 0);
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/login");
   };
-
-  const filtered = projects.filter((p) => {
-    const q = search.toLowerCase();
-    return p.client_name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
-  });
 
   const countByCategory = (cat: string) =>
     projects.filter((p) => p.category.toLowerCase() === cat.toLowerCase()).length;
@@ -94,7 +84,7 @@ const Admin = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
           <Card className="border-primary/30">
             <CardContent className="p-4 flex items-center gap-3">
               <Layers size={20} className="text-primary" />
@@ -112,132 +102,38 @@ const Admin = () => {
               </CardContent>
             </Card>
           ))}
+          <Card className={inquiryCount > 0 ? "border-primary/30" : ""}>
+            <CardContent className="p-4 flex items-center gap-3">
+              <Mail size={20} className={inquiryCount > 0 ? "text-primary" : "text-muted-foreground"} />
+              <div>
+                <p className="text-2xl font-bold">{inquiryCount}</p>
+                <p className="text-xs text-muted-foreground tracking-widest">NEW</p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Toolbar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="relative flex-1 w-full">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder="Search by name or category..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 tracking-wider text-xs"
-            />
-          </div>
-          <Button className="tracking-widest glow-orange shrink-0" onClick={() => navigate("/admin/project/new")}>
-            <Plus size={14} className="mr-2" /> ADD PROJECT
-          </Button>
-        </div>
-
-        {/* Table */}
-        {filtered.length > 0 ? (
-          <div className="border border-border rounded-lg overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-16" />
-                  <TableHead className="tracking-widest text-xs">CLIENT</TableHead>
-                  <TableHead className="tracking-widest text-xs">CATEGORY</TableHead>
-                  <TableHead className="tracking-widest text-xs hidden md:table-cell">TAGS</TableHead>
-                  <TableHead className="tracking-widest text-xs hidden sm:table-cell">DATE</TableHead>
-                  <TableHead className="tracking-widest text-xs text-right">ACTIONS</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filtered.map((p) => (
-                  <TableRow key={p.id}>
-                    <TableCell className="p-2">
-                      {p.image_url ? (
-                        <img src={p.image_url} alt={p.client_name} className="w-12 h-12 object-cover rounded" />
-                      ) : (
-                        <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
-                          <FolderOpen size={16} className="text-muted-foreground" />
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="font-bold tracking-widest text-sm">
-                      {p.client_name.toUpperCase()}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="tracking-wider text-xs">
-                        {p.category.toUpperCase()}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <div className="flex flex-wrap gap-1">
-                        {p.tags?.slice(0, 3).map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-[10px] tracking-wider">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-xs tracking-wider hidden sm:table-cell">
-                      {format(new Date(p.created_at), "dd MMM yyyy")}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <Button
-                          variant="ghost" size="icon"
-                          onClick={() => window.open(`/portfolio/${p.id}`, "_blank")}
-                          title="View public page"
-                        >
-                          <Eye size={14} />
-                        </Button>
-                        <Button
-                          variant="ghost" size="icon"
-                          onClick={() => navigate(`/admin/project/${p.id}`)}
-                          title="Edit"
-                        >
-                          <Edit size={14} />
-                        </Button>
-                        <Button
-                          variant="ghost" size="icon"
-                          onClick={() => setDeleteId(p.id)}
-                          title="Delete"
-                        >
-                          <Trash2 size={14} className="text-destructive" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        ) : (
-          <div className="border border-dashed border-border rounded-lg py-20 flex flex-col items-center gap-4">
-            <FolderOpen size={40} className="text-muted-foreground" />
-            <p className="text-muted-foreground text-xs tracking-widest">
-              {search ? "NO PROJECTS MATCH YOUR SEARCH." : "NO PROJECTS YET. ADD YOUR FIRST ONE."}
-            </p>
-            {!search && (
-              <Button className="tracking-widest glow-orange" onClick={() => navigate("/admin/project/new")}>
-                <Plus size={14} className="mr-2" /> ADD PROJECT
-              </Button>
-            )}
-          </div>
-        )}
+        {/* Tabs */}
+        <Tabs defaultValue="projects">
+          <TabsList className="tracking-widest">
+            <TabsTrigger value="projects" className="tracking-widest text-xs">PROJECTS</TabsTrigger>
+            <TabsTrigger value="inquiries" className="tracking-widest text-xs relative">
+              INQUIRIES
+              {inquiryCount > 0 && (
+                <span className="ml-2 bg-primary text-primary-foreground text-[10px] px-1.5 py-0.5 rounded-full">
+                  {inquiryCount}
+                </span>
+              )}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="projects" className="mt-6">
+            <AdminProjects projects={projects} onRefresh={fetchProjects} />
+          </TabsContent>
+          <TabsContent value="inquiries" className="mt-6">
+            <AdminInquiries />
+          </TabsContent>
+        </Tabs>
       </div>
-
-      {/* Delete Confirmation */}
-      <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="tracking-widest">DELETE PROJECT?</AlertDialogTitle>
-            <AlertDialogDescription className="tracking-wider">
-              This action cannot be undone. The project and its data will be permanently removed.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="tracking-widest text-xs">CANCEL</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground tracking-widest text-xs">
-              DELETE
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };

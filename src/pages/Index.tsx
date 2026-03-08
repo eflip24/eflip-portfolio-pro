@@ -3,41 +3,16 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import GeometricMesh from "@/components/GeometricMesh";
 
 const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
-
-const FloatingShape = ({ className }: { className: string }) => (
-  <motion.div
-    className={`absolute border border-primary/20 ${className}`}
-    animate={{
-      y: [0, -20, 0],
-      rotate: [0, 10, 0],
-      opacity: [0.3, 0.6, 0.3],
-    }}
-    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-  />
-);
 
 const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Floating shapes */}
-        <FloatingShape className="w-24 h-24 top-20 left-[10%] rotate-45" />
-        <FloatingShape className="w-16 h-16 top-40 right-[15%] rounded-full" />
-        <FloatingShape className="w-32 h-32 bottom-32 left-[20%] rotate-12" />
-        <FloatingShape className="w-12 h-12 bottom-40 right-[25%] rotate-45" />
-        <FloatingShape className="w-20 h-20 top-[30%] right-[8%]" />
-
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
+        <GeometricMesh />
 
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1

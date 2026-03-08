@@ -86,6 +86,7 @@ const AdminProjectEdit = () => {
       description: project.description,
       category: project.category,
       project_url: project.project_url || "",
+      button_label: (project as any).button_label || "",
       image_url: project.image_url || "",
       seo_title: (project as any).seo_title || "",
       seo_description: (project as any).seo_description || "",

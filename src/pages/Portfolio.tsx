@@ -6,6 +6,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import SEOHead from "@/components/SEOHead";
+import ProjectSkeleton from "@/components/ProjectSkeleton";
 
 interface Project {
   id: string;

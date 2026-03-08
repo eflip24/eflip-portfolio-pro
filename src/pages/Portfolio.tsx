@@ -37,6 +37,8 @@ const Portfolio = () => {
       const { data } = await supabase
         .from("projects")
         .select("*")
+        .eq("published", true)
+        .order("sort_order", { ascending: true })
         .order("created_at", { ascending: false });
       setProjects(data || []);
       setLoading(false);

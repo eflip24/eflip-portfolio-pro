@@ -97,6 +97,68 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Featured Work */}
+      {featured.length > 0 && (
+        <section className="py-24">
+          <div className="container mx-auto px-4">
+            <ScrollReveal>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-widest text-center mb-4">
+                FEATURED <span className="text-primary">WORK</span>
+              </h2>
+              <p className="text-center text-muted-foreground tracking-wider mb-12 text-sm">
+                A SELECTION OF OUR LATEST PROJECTS
+              </p>
+            </ScrollReveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featured.map((project, i) => (
+                <ScrollReveal key={project.id} delay={i * 0.1}>
+                  <Link to={`/portfolio/${project.id}`}>
+                    <motion.div
+                      className="group relative overflow-hidden bg-card project-card"
+                      whileHover={{ y: -8 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="aspect-video bg-secondary overflow-hidden">
+                        {project.image_url ? (
+                          <img
+                            src={project.image_url}
+                            alt={project.client_name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm tracking-widest">
+                            NO IMAGE
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-5">
+                        <Badge variant="outline" className="text-primary border-primary mb-3 text-[10px] tracking-widest">
+                          {project.category.toUpperCase()}
+                        </Badge>
+                        <h3 className="text-base font-bold tracking-wider mb-2">
+                          {project.client_name.toUpperCase()}
+                        </h3>
+                        <p className="text-muted-foreground text-sm tracking-wider line-clamp-2">
+                          {project.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </Link>
+                </ScrollReveal>
+              ))}
+            </div>
+            <div className="text-center mt-12">
+              <Button asChild size="lg" className="glow-orange tracking-widest group">
+                <Link to="/portfolio">
+                  VIEW ALL WORK
+                  <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Teaser Section */}
       <section className="py-24">
         <div className="container mx-auto px-4">

@@ -234,7 +234,7 @@ const ProjectDetail = () => {
 
             {project.image_url && (
               <div className="aspect-video overflow-hidden border border-border mb-8">
-                <img src={project.image_url} alt={project.client_name} className="w-full h-full object-cover" />
+                <img src={project.image_url} alt={project.client_name} loading="lazy" className="w-full h-full object-cover" />
               </div>
             )}
 

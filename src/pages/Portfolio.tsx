@@ -19,6 +19,14 @@ interface Project {
 
 const categories = ["ALL", "WEB", "GAMES", "PRINT", "VIDEO"];
 
+const categoryDescriptions: Record<string, string> = {
+  ALL: "A SHOWCASE OF OUR FINEST WORK ACROSS ALL DISCIPLINES",
+  WEB: "BOLD, IMMERSIVE WEBSITES BUILT TO CAPTIVATE AND CONVERT",
+  GAMES: "SHORT, SHARP SHOCKS TO PROMOTE GAME LAUNCHES AND GAMING BRANDS",
+  PRINT: "TACTILE DESIGN THAT DEMANDS ATTENTION IN THE PHYSICAL WORLD",
+  VIDEO: "CINEMATIC PRODUCTIONS THAT TELL STORIES WORTH WATCHING",
+};
+
 const Portfolio = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState("ALL");
@@ -46,26 +54,26 @@ const Portfolio = () => {
       <section className="py-24">
         <div className="container mx-auto px-4">
           <motion.h1
-            className="text-4xl md:text-6xl font-bold tracking-widest text-center mb-4"
+            className="text-5xl md:text-7xl font-bold tracking-widest text-center mb-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
           >
             OUR <span className="text-primary">WORK</span>
           </motion.h1>
-          <p className="text-center text-muted-foreground tracking-wider mb-12 text-sm">
-            PROJECTS THAT SPEAK FOR THEMSELVES
+          <p className="text-center text-muted-foreground tracking-wider mb-12 text-base">
+            {categoryDescriptions[filter]}
           </p>
 
           {/* Filters */}
-          <div className="flex justify-center gap-3 mb-16 flex-wrap">
+          <div className="flex justify-center gap-4 mb-16 flex-wrap">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-4 py-2 text-xs tracking-widest border transition-all ${
+                className={`filter-btn px-6 py-3 text-sm tracking-widest transition-colors ${
                   filter === cat
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border text-muted-foreground hover:border-primary hover:text-primary"
+                    ? "active text-primary-foreground"
+                    : "text-muted-foreground hover:text-primary-foreground"
                 }`}
               >
                 {cat}
@@ -74,18 +82,18 @@ const Portfolio = () => {
           </div>
 
           {loading ? (
-            <div className="text-center text-muted-foreground tracking-wider">LOADING...</div>
+            <div className="text-center text-muted-foreground tracking-wider text-base">LOADING...</div>
           ) : filtered.length === 0 ? (
-            <div className="text-center text-muted-foreground tracking-wider">
+            <div className="text-center text-muted-foreground tracking-wider text-base">
               NO PROJECTS YET. CHECK BACK SOON.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filtered.map((project, i) => (
-                <ScrollReveal key={project.id} delay={i * 0.1}>
+                <ScrollReveal key={project.id} delay={i * 0.08}>
                   <Link to={`/portfolio/${project.id}`}>
                     <motion.div
-                      className="group relative overflow-hidden border border-border bg-card"
+                      className="group relative overflow-hidden bg-card project-card"
                       whileHover={{ y: -8 }}
                       transition={{ duration: 0.3 }}
                     >
@@ -97,23 +105,22 @@ const Portfolio = () => {
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs tracking-widest">
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm tracking-widest">
                             NO IMAGE
                           </div>
                         )}
                       </div>
-                      <div className="p-6">
+                      <div className="p-5">
                         <Badge variant="outline" className="text-primary border-primary mb-3 text-[10px] tracking-widest">
                           {project.category.toUpperCase()}
                         </Badge>
-                        <h3 className="text-lg font-bold tracking-wider mb-2">
+                        <h3 className="text-base font-bold tracking-wider mb-2">
                           {project.client_name.toUpperCase()}
                         </h3>
-                        <p className="text-muted-foreground text-xs tracking-wider line-clamp-2">
+                        <p className="text-muted-foreground text-sm tracking-wider line-clamp-2">
                           {project.description}
                         </p>
                       </div>
-                      <div className="absolute inset-0 border-2 border-primary opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                     </motion.div>
                   </Link>
                 </ScrollReveal>

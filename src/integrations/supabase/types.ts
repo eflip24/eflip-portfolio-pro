@@ -60,6 +60,7 @@ export type Database = {
       }
       projects: {
         Row: {
+          button_label: string | null
           category: string
           client_name: string
           created_at: string
@@ -75,6 +76,7 @@ export type Database = {
           testimonial_author: string | null
         }
         Insert: {
+          button_label?: string | null
           category: string
           client_name: string
           created_at?: string
@@ -90,6 +92,7 @@ export type Database = {
           testimonial_author?: string | null
         }
         Update: {
+          button_label?: string | null
           category?: string
           client_name?: string
           created_at?: string

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import GeometricMesh from "@/components/GeometricMesh";
 import SEOHead from "@/components/SEOHead";
 
 const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
@@ -14,7 +13,6 @@ const Index = () => {
       <SEOHead />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <GeometricMesh />
 
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1

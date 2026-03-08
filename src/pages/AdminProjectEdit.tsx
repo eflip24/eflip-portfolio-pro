@@ -15,6 +15,7 @@ interface ProjectForm {
   description: string;
   category: string;
   project_url: string;
+  button_label: string;
   image_url: string;
   seo_title: string;
   seo_description: string;
@@ -55,7 +56,7 @@ const AdminProjectEdit = () => {
   const [seoImageFile, setSeoImageFile] = useState<File | null>(null);
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
   const [form, setForm] = useState<ProjectForm>({
-    client_name: "", description: "", category: "web", project_url: "",
+    client_name: "", description: "", category: "web", project_url: "", button_label: "",
     image_url: "", seo_title: "", seo_description: "", seo_image: "",
     tags: "", testimonial: "", testimonial_author: "",
   });
@@ -85,6 +86,7 @@ const AdminProjectEdit = () => {
       description: project.description,
       category: project.category,
       project_url: project.project_url || "",
+      button_label: (project as any).button_label || "",
       image_url: project.image_url || "",
       seo_title: (project as any).seo_title || "",
       seo_description: (project as any).seo_description || "",
@@ -164,6 +166,7 @@ const AdminProjectEdit = () => {
       tags: tagsArr,
       testimonial: form.testimonial || null,
       testimonial_author: form.testimonial_author || null,
+      button_label: form.button_label || null,
     };
 
     let projectId = id;
@@ -279,6 +282,7 @@ const AdminProjectEdit = () => {
                 </SelectContent>
               </Select>
               <Input placeholder="PROJECT URL (OPTIONAL)" value={form.project_url} onChange={e => setForm({ ...form, project_url: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
+              <Input placeholder="BUTTON LABEL (E.G. ARC RAIDERS TRADE)" value={form.button_label} onChange={e => setForm({ ...form, button_label: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
               <Input placeholder="TAGS (COMMA SEPARATED)" value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
               <div>
                 <label className="text-xs tracking-widest text-muted-foreground block mb-2">PROJECT IMAGE</label>

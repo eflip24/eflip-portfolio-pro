@@ -23,6 +23,7 @@ interface Project {
   tags: string[] | null;
   testimonial: string | null;
   testimonial_author: string | null;
+  button_label: string | null;
 }
 
 interface Section {
@@ -239,7 +240,7 @@ const ProjectDetail = () => {
             {project.project_url && (
               <Button asChild className="glow-orange tracking-widest mb-12">
                 <a href={project.project_url} target="_blank" rel="noopener noreferrer">
-                  VIEW LIVE PROJECT <ExternalLink className="ml-2" size={14} />
+                  {project.button_label || "VIEW LIVE PROJECT"} <ExternalLink className="ml-2" size={14} />
                 </a>
               </Button>
             )}

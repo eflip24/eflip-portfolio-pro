@@ -28,6 +28,7 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEOHead title="Contact" description="Get in touch with eFlip. Let's create something extraordinary together." />
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-xl">
           <motion.h1

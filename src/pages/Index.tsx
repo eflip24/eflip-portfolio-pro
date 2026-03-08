@@ -11,6 +11,7 @@ const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"
 const Index = () => {
   return (
     <Layout>
+      <SEOHead />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <GeometricMesh />

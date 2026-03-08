@@ -5,6 +5,7 @@ import SEOHead from "@/components/SEOHead";
 
 const About = () => (
   <Layout>
+    <SEOHead title="About" description="Learn about eFlip — a bold design collective pushing creative boundaries in web, games, print, and video." />
     <section className="py-24">
       <div className="container mx-auto px-4 max-w-4xl">
         <motion.h1

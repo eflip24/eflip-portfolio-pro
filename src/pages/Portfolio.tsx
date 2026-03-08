@@ -42,6 +42,7 @@ const Portfolio = () => {
 
   return (
     <Layout>
+      <SEOHead title="Portfolio" description="Explore eFlip's portfolio of bold websites, games, print designs, and video productions." />
       <section className="py-24">
         <div className="container mx-auto px-4">
           <motion.h1

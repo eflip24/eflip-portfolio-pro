@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          status: Database["public"]["Enums"]["submission_status"]
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          status?: Database["public"]["Enums"]["submission_status"]
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          status?: Database["public"]["Enums"]["submission_status"]
+        }
+        Relationships: []
+      }
       project_sections: {
         Row: {
           content_left: string | null
@@ -68,9 +95,11 @@ export type Database = {
           id: string
           image_url: string | null
           project_url: string | null
+          published: boolean
           seo_description: string | null
           seo_image: string | null
           seo_title: string | null
+          sort_order: number
           tags: string[] | null
           testimonial: string | null
           testimonial_author: string | null
@@ -84,9 +113,11 @@ export type Database = {
           id?: string
           image_url?: string | null
           project_url?: string | null
+          published?: boolean
           seo_description?: string | null
           seo_image?: string | null
           seo_title?: string | null
+          sort_order?: number
           tags?: string[] | null
           testimonial?: string | null
           testimonial_author?: string | null
@@ -100,9 +131,11 @@ export type Database = {
           id?: string
           image_url?: string | null
           project_url?: string | null
+          published?: boolean
           seo_description?: string | null
           seo_image?: string | null
           seo_title?: string | null
+          sort_order?: number
           tags?: string[] | null
           testimonial?: string | null
           testimonial_author?: string | null
@@ -142,6 +175,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      submission_status: "new" | "read" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -270,6 +304,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      submission_status: ["new", "read", "archived"],
     },
   },
 } as const

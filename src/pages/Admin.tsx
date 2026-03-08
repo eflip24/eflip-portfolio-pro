@@ -95,7 +95,7 @@ const Admin = () => {
                 <h3 className="font-bold tracking-widest text-sm">{p.client_name.toUpperCase()}</h3>
                 <p className="text-muted-foreground text-xs tracking-wider truncate">{p.category.toUpperCase()}</p>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => handleEdit(p)}>
+              <Button variant="ghost" size="icon" onClick={() => navigate(`/admin/project/${p.id}`)}>
                 <Edit size={14} />
               </Button>
               <Button variant="ghost" size="icon" onClick={() => handleDelete(p.id)}>

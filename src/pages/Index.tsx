@@ -13,7 +13,6 @@ const Index = () => {
       <SEOHead />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <GeometricMesh />
 
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1

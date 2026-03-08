@@ -282,6 +282,7 @@ const AdminProjectEdit = () => {
                 </SelectContent>
               </Select>
               <Input placeholder="PROJECT URL (OPTIONAL)" value={form.project_url} onChange={e => setForm({ ...form, project_url: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
+              <Input placeholder="BUTTON LABEL (E.G. ARC RAIDERS TRADE)" value={form.button_label} onChange={e => setForm({ ...form, button_label: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
               <Input placeholder="TAGS (COMMA SEPARATED)" value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
               <div>
                 <label className="text-xs tracking-widest text-muted-foreground block mb-2">PROJECT IMAGE</label>

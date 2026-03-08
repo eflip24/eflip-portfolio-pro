@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import GeometricMesh from "@/components/GeometricMesh";
+import SEOHead from "@/components/SEOHead";
 
 const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
 

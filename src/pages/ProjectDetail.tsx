@@ -52,6 +52,9 @@ const ProjectDetail = () => {
       const { data } = await supabase.from("projects").select("*").eq("id", id).single();
       setProject(data as any);
 
+      // Track page view (fire-and-forget)
+      supabase.from("page_views").insert({ page_path: `/portfolio/${id}`, project_id: id }).then(() => {});
+
       if (data) {
         const [{ data: secs }, { data: allProjects }, { data: related }] = await Promise.all([
           supabase

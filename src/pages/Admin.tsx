@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { LogOut, Layers, Mail } from "lucide-react";
+import { LogOut, Layers, Mail, FileText, BarChart3 } from "lucide-react";
 import AdminProjects from "@/components/admin/AdminProjects";
 import AdminInquiries from "@/components/admin/AdminInquiries";
+import AdminBlog from "@/components/admin/AdminBlog";
+import AdminAnalytics from "@/components/admin/AdminAnalytics";
 
 const CATEGORIES = ["Web", "Games", "Print", "Video"];
 
@@ -27,12 +29,14 @@ interface Project {
 const Admin = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [inquiryCount, setInquiryCount] = useState(0);
+  const [blogCount, setBlogCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     checkAuth();
     fetchProjects();
     fetchInquiryCount();
+    fetchBlogCount();
   }, []);
 
   const checkAuth = async () => {
@@ -62,6 +66,13 @@ const Admin = () => {
     setInquiryCount(count || 0);
   };
 
+  const fetchBlogCount = async () => {
+    const { count } = await supabase
+      .from("blog_posts")
+      .select("*", { count: "exact", head: true });
+    setBlogCount(count || 0);
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/login");
@@ -84,7 +95,7 @@ const Admin = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
           <Card className="border-primary/30">
             <CardContent className="p-4 flex items-center gap-3">
               <Layers size={20} className="text-primary" />
@@ -111,6 +122,15 @@ const Admin = () => {
               </div>
             </CardContent>
           </Card>
+          <Card>
+            <CardContent className="p-4 flex items-center gap-3">
+              <FileText size={20} className="text-muted-foreground" />
+              <div>
+                <p className="text-2xl font-bold">{blogCount}</p>
+                <p className="text-xs text-muted-foreground tracking-widest">POSTS</p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Tabs */}
@@ -125,12 +145,22 @@ const Admin = () => {
                 </span>
               )}
             </TabsTrigger>
+            <TabsTrigger value="blog" className="tracking-widest text-xs">BLOG</TabsTrigger>
+            <TabsTrigger value="analytics" className="tracking-widest text-xs">
+              <BarChart3 size={12} className="mr-1" /> ANALYTICS
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="projects" className="mt-6">
             <AdminProjects projects={projects} onRefresh={fetchProjects} />
           </TabsContent>
           <TabsContent value="inquiries" className="mt-6">
             <AdminInquiries />
+          </TabsContent>
+          <TabsContent value="blog" className="mt-6">
+            <AdminBlog />
+          </TabsContent>
+          <TabsContent value="analytics" className="mt-6">
+            <AdminAnalytics />
           </TabsContent>
         </Tabs>
       </div>

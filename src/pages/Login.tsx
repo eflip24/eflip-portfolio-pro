@@ -10,16 +10,28 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      toast.error(error.message);
+
+    if (isSignUp) {
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("ACCOUNT CREATED! YOU CAN NOW SIGN IN.");
+        setIsSignUp(false);
+      }
     } else {
-      navigate("/admin");
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        toast.error(error.message);
+      } else {
+        navigate("/admin");
+      }
     }
     setLoading(false);
   };
@@ -35,9 +47,9 @@ const Login = () => {
           eFLIP
         </h1>
         <p className="text-center text-muted-foreground text-xs tracking-widest mb-8">
-          ADMIN LOGIN
+          {isSignUp ? "CREATE ACCOUNT" : "ADMIN LOGIN"}
         </p>
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="email"
             placeholder="EMAIL"
@@ -55,9 +67,15 @@ const Login = () => {
             required
           />
           <Button type="submit" className="w-full tracking-widest glow-orange" disabled={loading}>
-            {loading ? "SIGNING IN..." : "SIGN IN"}
+            {loading ? "PROCESSING..." : isSignUp ? "SIGN UP" : "SIGN IN"}
           </Button>
         </form>
+        <button
+          onClick={() => setIsSignUp(!isSignUp)}
+          className="w-full mt-4 text-xs text-muted-foreground tracking-widest hover:text-primary transition-colors text-center"
+        >
+          {isSignUp ? "ALREADY HAVE AN ACCOUNT? SIGN IN" : "NEED AN ACCOUNT? SIGN UP"}
+        </button>
       </motion.div>
     </div>
   );

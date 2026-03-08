@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Quote } from "lucide-react";
 import Layout from "@/components/Layout";

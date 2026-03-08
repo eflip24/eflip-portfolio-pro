@@ -234,7 +234,7 @@ const ProjectDetail = () => {
 
             {project.image_url && (
               <div className="aspect-video overflow-hidden border border-border mb-8">
-                <img src={project.image_url} alt={project.client_name} className="w-full h-full object-cover" />
+                <img src={project.image_url} alt={project.client_name} loading="lazy" className="w-full h-full object-cover" />
               </div>
             )}
 
@@ -304,9 +304,10 @@ const ProjectDetail = () => {
                       >
                         <div className="aspect-video bg-secondary overflow-hidden">
                           {rp.image_url ? (
-                            <img
+                             <img
                               src={rp.image_url}
                               alt={rp.client_name}
+                              loading="lazy"
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                           ) : (

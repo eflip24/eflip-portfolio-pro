@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Quote } from "lucide-react";
 import Layout from "@/components/Layout";
@@ -11,6 +11,55 @@ import { supabase } from "@/integrations/supabase/client";
 import useEmblaCarousel from "embla-carousel-react";
 
 const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
+
+const stats = [
+  { label: "PROJECTS DELIVERED", value: 50, suffix: "+" },
+  { label: "HAPPY CLIENTS", value: 30, suffix: "+" },
+  { label: "SERVICES OFFERED", value: 4, suffix: "" },
+  { label: "YEARS EXPERIENCE", value: 8, suffix: "+" },
+];
+
+const AnimatedNumber = ({ value, suffix }: { value: number; suffix: string }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 1500;
+    const step = Math.ceil(value / (duration / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(start);
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, value]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+};
+
+const StatsCounter = () => (
+  <section className="py-20 border-y border-border">
+    <div className="container mx-auto px-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        {stats.map((stat) => (
+          <div key={stat.label}>
+            <p className="text-4xl md:text-5xl font-bold text-primary tracking-widest mb-2">
+              <AnimatedNumber value={stat.value} suffix={stat.suffix} />
+            </p>
+            <p className="text-[10px] tracking-widest text-muted-foreground">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 interface Project {
   id: string;
@@ -121,6 +170,9 @@ const Index = () => {
           ))}
         </div>
       </section>
+
+      {/* Stats Counter */}
+      <StatsCounter />
 
       {/* Featured Work */}
       {featured.length > 0 && (

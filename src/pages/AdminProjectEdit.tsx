@@ -166,6 +166,7 @@ const AdminProjectEdit = () => {
       tags: tagsArr,
       testimonial: form.testimonial || null,
       testimonial_author: form.testimonial_author || null,
+      button_label: form.button_label || null,
     };
 
     let projectId = id;

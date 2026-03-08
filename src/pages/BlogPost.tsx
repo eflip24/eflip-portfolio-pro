@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Clock, User } from "lucide-react";
+import { ArrowLeft, Clock, User, Link2, Twitter } from "lucide-react";
 import { format } from "date-fns";
 import DOMPurify from "dompurify";
+import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,12 +47,26 @@ const BlogPost = () => {
     fetchPost();
   }, [slug]);
 
-  // Track page view
   useEffect(() => {
     if (slug) {
       supabase.from("page_views").insert({ page_path: `/blog/${slug}` });
     }
   }, [slug]);
+
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    toast.success("LINK COPIED!");
+  };
+
+  const shareTwitter = () => {
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post?.title || "")}`, "_blank");
+  };
+
+  const shareLinkedIn = () => {
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, "_blank");
+  };
 
   if (loading) {
     return (
@@ -141,6 +156,22 @@ const BlogPost = () => {
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
               className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider leading-relaxed"
             />
+
+            {/* Share buttons */}
+            <div className="mt-12 border-t border-border pt-8">
+              <p className="text-xs tracking-widest text-muted-foreground mb-4">SHARE THIS POST</p>
+              <div className="flex gap-3">
+                <Button variant="outline" size="sm" onClick={copyLink} className="tracking-widest text-[10px]">
+                  <Link2 size={14} className="mr-2" /> COPY LINK
+                </Button>
+                <Button variant="outline" size="sm" onClick={shareTwitter} className="tracking-widest text-[10px]">
+                  <Twitter size={14} className="mr-2" /> X / TWITTER
+                </Button>
+                <Button variant="outline" size="sm" onClick={shareLinkedIn} className="tracking-widest text-[10px]">
+                  LINKEDIN
+                </Button>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>

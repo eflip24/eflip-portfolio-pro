@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { Globe, Gamepad2, Printer, Video } from "lucide-react";
+import { Globe, Gamepad2, Printer, Video, Search, Palette, Code, Rocket } from "lucide-react";
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import SEOHead from "@/components/SEOHead";
+import { Button } from "@/components/ui/button";
 
 const services = [
   {
@@ -24,6 +26,33 @@ const services = [
     icon: Video,
     title: "VIDEO PRODUCTION",
     desc: "CINEMATIC VIDEOS, MOTION GRAPHICS, AND ANIMATIONS THAT TELL YOUR STORY WITH IMPACT.",
+  },
+];
+
+const process = [
+  {
+    icon: Search,
+    step: "01",
+    title: "DISCOVERY",
+    desc: "WE DIG DEEP INTO YOUR BRAND, AUDIENCE, AND GOALS TO BUILD A STRATEGIC FOUNDATION.",
+  },
+  {
+    icon: Palette,
+    step: "02",
+    title: "DESIGN",
+    desc: "CONCEPTS TAKE SHAPE THROUGH WIREFRAMES, MOCKUPS, AND ITERATIVE FEEDBACK LOOPS.",
+  },
+  {
+    icon: Code,
+    step: "03",
+    title: "BUILD",
+    desc: "PIXEL-PERFECT EXECUTION WITH MODERN TOOLS, RESPONSIVE LAYOUTS, AND CLEAN CODE.",
+  },
+  {
+    icon: Rocket,
+    step: "04",
+    title: "LAUNCH",
+    desc: "RIGOROUS QA, DEPLOYMENT, AND ONGOING SUPPORT TO ENSURE YOUR PROJECT THRIVES.",
   },
 ];
 
@@ -58,6 +87,61 @@ const Services = () => (
               </motion.div>
             </ScrollReveal>
           ))}
+        </div>
+      </div>
+    </section>
+
+    {/* How We Work */}
+    <section className="py-24 border-t border-border">
+      <div className="container mx-auto px-4">
+        <ScrollReveal>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-widest text-center mb-4">
+            HOW WE <span className="text-primary">WORK</span>
+          </h2>
+          <p className="text-center text-muted-foreground tracking-wider mb-16 text-sm">
+            A PROVEN PROCESS FOR EXCEPTIONAL RESULTS
+          </p>
+        </ScrollReveal>
+
+        <div className="max-w-4xl mx-auto relative">
+          {/* Vertical line */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2" />
+
+          {process.map((p, i) => (
+            <ScrollReveal key={p.step} delay={i * 0.15}>
+              <div className={`flex flex-col md:flex-row items-center gap-8 mb-16 last:mb-0 ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
+                <div className="flex-1 text-center md:text-right">
+                  {i % 2 === 0 && (
+                    <div className={`md:pr-12 ${i % 2 === 1 ? "md:text-left md:pl-12 md:pr-0" : ""}`}>
+                      <span className="text-primary text-3xl font-bold tracking-widest">{p.step}</span>
+                      <h3 className="text-xl font-bold tracking-widest mt-2 mb-3">{p.title}</h3>
+                      <p className="text-muted-foreground text-xs tracking-wider leading-relaxed">{p.desc}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="relative z-10 w-16 h-16 border-2 border-primary bg-background flex items-center justify-center shrink-0">
+                  <p.icon className="w-7 h-7 text-primary" strokeWidth={1.5} />
+                </div>
+
+                <div className="flex-1 text-center md:text-left">
+                  {i % 2 === 1 && (
+                    <div className="md:pl-12">
+                      <span className="text-primary text-3xl font-bold tracking-widest">{p.step}</span>
+                      <h3 className="text-xl font-bold tracking-widest mt-2 mb-3">{p.title}</h3>
+                      <p className="text-muted-foreground text-xs tracking-wider leading-relaxed">{p.desc}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        <div className="text-center mt-16">
+          <Button asChild size="lg" className="glow-orange tracking-widest">
+            <Link to="/contact">START YOUR PROJECT</Link>
+          </Button>
         </div>
       </div>
     </section>

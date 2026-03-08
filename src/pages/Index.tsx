@@ -1,13 +1,41 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
+import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import SEOHead from "@/components/SEOHead";
+import { supabase } from "@/integrations/supabase/client";
 
 const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
 
+interface Project {
+  id: string;
+  client_name: string;
+  description: string;
+  category: string;
+  image_url: string | null;
+}
+
 const Index = () => {
+  const [featured, setFeatured] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      const { data } = await supabase
+        .from("projects")
+        .select("id, client_name, description, category, image_url")
+        .eq("published", true)
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: false })
+        .limit(4);
+      setFeatured(data || []);
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <Layout>
       <SEOHead />

@@ -107,6 +107,17 @@ const BlogPost = () => {
         title={post.seo_title || post.title}
         description={post.seo_description || post.excerpt}
         image={post.seo_image || post.cover_image || undefined}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": post.title,
+          "description": post.excerpt,
+          "image": post.cover_image || undefined,
+          "datePublished": post.created_at,
+          "author": { "@type": "Person", "name": post.author || "eFlip" },
+          "publisher": { "@type": "Organization", "name": "eFlip", "logo": { "@type": "ImageObject", "url": "https://eflip.ie/og-image.png" } }
+        }}
       />
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-3xl">

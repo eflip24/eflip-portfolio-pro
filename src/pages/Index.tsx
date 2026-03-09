@@ -118,7 +118,19 @@ const Index = () => {
 
   return (
     <Layout>
-      <SEOHead />
+      <SEOHead jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "eFlip",
+        "url": "https://eflip.ie",
+        "logo": "https://eflip.ie/og-image.png",
+        "description": "eFlip is a design agency crafting websites, games, print media, and videos that push creative boundaries.",
+        "sameAs": [
+          "https://instagram.com/eflip",
+          "https://linkedin.com/company/eflip",
+          "https://x.com/eflip"
+        ]
+      }} />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">

@@ -32,8 +32,8 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="text-2xl font-bold tracking-widest text-primary">
-          eFLIP
+        <Link to="/">
+          <img src="/logo.png" alt="eFLIP" className="h-8 w-auto" />
         </Link>
 
         {/* Desktop */}

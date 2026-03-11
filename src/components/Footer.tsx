@@ -13,8 +13,8 @@ const Footer = () => (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
         {/* Brand */}
         <div>
-          <Link to="/" className="text-2xl font-bold tracking-widest text-primary">
-            eFLIP
+          <Link to="/">
+            <img src="/logo.png" alt="eFLIP" className="h-8 w-auto" />
           </Link>
           <p className="text-muted-foreground text-xs tracking-wider mt-4 leading-relaxed">
             BOLD DESIGN FOR BOLD BRANDS. WE CREATE THE EXTRAORDINARY ACROSS WEB, GAMES, PRINT & VIDEO.

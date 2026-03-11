@@ -134,14 +134,14 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
-          <motion.h1
-            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-widest text-gradient mb-6"
+          <motion.img
+            src="/logo.png"
+            alt="eFLIP"
+            className="h-24 md:h-32 lg:h-40 w-auto mx-auto mb-6"
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            eFLIP
-          </motion.h1>
+          />
           <motion.div
             className="overflow-hidden"
             initial={{ width: 0 }}

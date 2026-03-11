@@ -5,7 +5,36 @@ import SEOHead from "@/components/SEOHead";
 
 const About = () => (
   <Layout>
-    <SEOHead title="About" description="Learn about eFlip — a bold design collective pushing creative boundaries in web, games, print, and video." />
+    <SEOHead
+      title="About Us — Meet the eFlip Creative Team"
+      description="Learn about eFlip, a bold design collective in Ireland pushing creative boundaries across web, games, print, and video since 2016."
+      keywords="about eFlip, design agency Ireland, creative team, web design company, game development studio"
+      jsonLd={[
+        {
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "name": "About eFlip",
+          "description": "Learn about eFlip, a bold design collective in Ireland pushing creative boundaries.",
+          "url": "https://eflip.ie/about",
+          "mainEntity": {
+            "@type": "Organization",
+            "name": "eFlip",
+            "url": "https://eflip.ie",
+            "foundingDate": "2016",
+            "areaServed": { "@type": "Country", "name": "Ireland" },
+            "knowsAbout": ["Web Design", "Game Development", "Print Design", "Video Production"]
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
+            { "@type": "ListItem", "position": 2, "name": "About", "item": "https://eflip.ie/about" }
+          ]
+        }
+      ]}
+    />
     <section className="py-24">
       <div className="container mx-auto px-4 max-w-4xl">
         <motion.h1

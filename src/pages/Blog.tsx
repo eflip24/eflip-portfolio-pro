@@ -41,7 +41,29 @@ const Blog = () => {
 
   return (
     <Layout>
-      <SEOHead title="Blog" description="Insights, case studies, and behind-the-scenes from eFLIP design agency." />
+      <SEOHead
+        title="Blog — Design Insights & Case Studies"
+        description="Read the latest design insights, project case studies, and creative industry trends from the eFlip team in Ireland."
+        keywords="design blog, web design insights, case studies, creative industry, eFlip blog"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            "name": "eFlip Blog",
+            "description": "Design insights, project case studies, and creative industry trends from eFlip.",
+            "url": "https://eflip.ie/blog",
+            "publisher": { "@type": "Organization", "name": "eFlip", "url": "https://eflip.ie" }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
+              { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://eflip.ie/blog" }
+            ]
+          }
+        ]}
+      />
       <section className="py-24">
         <div className="container mx-auto px-4">
           <motion.h1

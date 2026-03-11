@@ -115,6 +115,10 @@ const ProjectDetail = () => {
     );
   }
 
+  const seoTitle = project.seo_title || project.client_name;
+  const seoDesc = project.seo_description || project.description;
+  const seoImg = project.seo_image || project.image_url || undefined;
+
   const renderSection = (section: Section) => {
     switch (section.layout) {
       case "full":
@@ -193,9 +197,33 @@ const ProjectDetail = () => {
   return (
     <Layout>
       <SEOHead
-        title={project.seo_title || project.client_name}
-        description={project.seo_description || project.description}
-        image={project.seo_image || project.image_url || undefined}
+        title={seoTitle}
+        description={seoDesc}
+        image={seoImg}
+        keywords={project.tags?.join(", ") || `${project.category} design, eFlip, ${project.client_name}`}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": project.client_name,
+            "description": project.description,
+            "image": project.image_url || undefined,
+            "url": `https://eflip.ie/portfolio/${project.id}`,
+            "creator": { "@type": "Organization", "name": "eFlip", "url": "https://eflip.ie" },
+            "dateCreated": project.created_at,
+            "genre": project.category,
+            "keywords": project.tags?.join(", ") || project.category,
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
+              { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://eflip.ie/portfolio" },
+              { "@type": "ListItem", "position": 3, "name": project.client_name, "item": `https://eflip.ie/portfolio/${project.id}` }
+            ]
+          }
+        ]}
       />
 
       {lightbox && (

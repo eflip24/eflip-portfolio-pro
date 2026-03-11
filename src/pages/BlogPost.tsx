@@ -20,6 +20,7 @@ interface Post {
   excerpt: string;
   cover_image: string | null;
   created_at: string;
+  updated_at: string;
   author: string | null;
   read_time: number | null;
   tags: string[] | null;
@@ -101,6 +102,8 @@ const BlogPost = () => {
     );
   }
 
+  const wordCount = post.content.replace(/<[^>]*>/g, "").split(/\s+/).length;
+
   return (
     <Layout>
       <SEOHead
@@ -108,16 +111,39 @@ const BlogPost = () => {
         description={post.seo_description || post.excerpt}
         image={post.seo_image || post.cover_image || undefined}
         type="article"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": post.title,
-          "description": post.excerpt,
-          "image": post.cover_image || undefined,
-          "datePublished": post.created_at,
-          "author": { "@type": "Person", "name": post.author || "eFlip" },
-          "publisher": { "@type": "Organization", "name": "eFlip", "logo": { "@type": "ImageObject", "url": "https://eflip.ie/og-image.png" } }
-        }}
+        keywords={post.tags?.join(", ") || "design, eFlip, blog"}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": post.title,
+            "description": post.excerpt,
+            "image": post.cover_image || undefined,
+            "datePublished": post.created_at,
+            "dateModified": post.updated_at || post.created_at,
+            "wordCount": wordCount,
+            "articleSection": post.tags?.[0] || "Design",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://eflip.ie/blog/${post.slug}`
+            },
+            "author": { "@type": "Person", "name": post.author || "eFlip" },
+            "publisher": {
+              "@type": "Organization",
+              "name": "eFlip",
+              "logo": { "@type": "ImageObject", "url": "https://eflip.ie/logo.png" }
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
+              { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://eflip.ie/blog" },
+              { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://eflip.ie/blog/${post.slug}` }
+            ]
+          }
+        ]}
       />
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-3xl">

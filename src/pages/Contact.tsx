@@ -62,7 +62,39 @@ const Contact = () => {
 
   return (
     <Layout>
-      <SEOHead title="Contact" description="Get in touch with eFlip. Let's create something extraordinary together." />
+      <SEOHead
+        title="Contact Us — Get a Free Quote"
+        description="Ready to start your next project? Contact eFlip for a free consultation. We specialise in web design, games, print, and video production in Ireland."
+        keywords="contact eFlip, free quote, web design quote, design agency contact, Ireland"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Contact eFlip",
+            "description": "Get in touch with eFlip for a free consultation on your next design project.",
+            "url": "https://eflip.ie/contact",
+            "mainEntity": {
+              "@type": "Organization",
+              "name": "eFlip",
+              "url": "https://eflip.ie",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "url": "https://eflip.ie/contact",
+                "availableLanguage": "English"
+              }
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
+              { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://eflip.ie/contact" }
+            ]
+          }
+        ]}
+      />
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-xl">
           <motion.h1

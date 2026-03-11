@@ -58,7 +58,38 @@ const process = [
 
 const Services = () => (
   <Layout>
-    <SEOHead title="Services" description="Web design, game design, print design, and video production — eFlip delivers exceptional creative solutions." />
+    <SEOHead
+      title="Services — Web Design, Games, Print & Video"
+      description="Professional web design, game development, print design, and video production services. eFlip delivers creative solutions tailored to your brand in Ireland."
+      keywords="web design Ireland, game development, print design, video production, branding, UI UX design, eFlip services"
+      jsonLd={[
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "serviceType": "Design Services",
+          "provider": { "@type": "Organization", "name": "eFlip", "url": "https://eflip.ie" },
+          "areaServed": { "@type": "Country", "name": "Ireland" },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Design Services",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design", "description": "Responsive, modern websites that convert visitors into customers." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Game Design", "description": "Immersive gaming experiences with stunning visuals and engaging mechanics." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Print Design", "description": "Striking print materials — business cards, brochures, posters, packaging." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Video Production", "description": "Cinematic videos, motion graphics, and animations that tell your story." } }
+            ]
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://eflip.ie/services" }
+          ]
+        }
+      ]}
+    />
     <section className="py-24">
       <div className="container mx-auto px-4">
         <motion.h1

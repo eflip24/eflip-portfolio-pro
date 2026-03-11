@@ -7,26 +7,36 @@ interface SEOHeadProps {
   image?: string;
   url?: string;
   type?: string;
-  jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
+  keywords?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const SEOHead = ({
-  title = "eFlip — Bold Design Agency",
-  description = "eFlip is a design agency crafting websites, games, print media, and videos that push creative boundaries.",
+  title = "eFlip — Creative Design Agency in Ireland | Web, Games, Print & Video",
+  description = "eFlip is an Irish design agency specialising in web design, game development, print media, and video production. Bold creative solutions that elevate your brand.",
   image = "https://eflip.ie/og-image.png",
   url,
   type = "website",
+  noindex = false,
+  keywords,
   jsonLd,
 }: SEOHeadProps) => {
   const location = useLocation();
-  const fullTitle = title === "eFlip — Bold Design Agency" ? title : `${title} | eFlip`;
+  const fullTitle = title === "eFlip — Creative Design Agency in Ireland | Web, Games, Print & Video" ? title : `${title} | eFlip`;
   const canonicalUrl = url || `https://eflip.ie${location.pathname}`;
+
+  const jsonLdArray = jsonLd
+    ? Array.isArray(jsonLd) ? jsonLd : [jsonLd]
+    : [];
 
   return (
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={canonicalUrl} />
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      {keywords && <meta name="keywords" content={keywords} />}
 
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
@@ -37,15 +47,16 @@ const SEOHead = ({
       <meta property="og:locale" content="en_IE" />
 
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@eflip" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
 
-      {jsonLd && (
-        <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
+      {jsonLdArray.map((ld, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(ld)}
         </script>
-      )}
+      ))}
     </Helmet>
   );
 };

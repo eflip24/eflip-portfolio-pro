@@ -118,25 +118,51 @@ const Index = () => {
 
   return (
     <Layout>
-      <SEOHead jsonLd={{
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "eFlip",
-        "url": "https://eflip.ie",
-        "logo": "https://eflip.ie/og-image.png",
-        "description": "eFlip is a design agency crafting websites, games, print media, and videos that push creative boundaries.",
-        "sameAs": [
-          "https://instagram.com/eflip",
-          "https://linkedin.com/company/eflip",
-          "https://x.com/eflip"
-        ]
-      }} />
+      <SEOHead
+        keywords="design agency Ireland, web design, game development, print design, video production, branding, UI UX"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "eFlip",
+            "url": "https://eflip.ie",
+            "logo": "https://eflip.ie/logo.png",
+            "description": "eFlip is an Irish design agency specialising in web design, game development, print media, and video production.",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer service",
+              "url": "https://eflip.ie/contact",
+              "availableLanguage": "English"
+            },
+            "areaServed": {
+              "@type": "Country",
+              "name": "Ireland"
+            },
+            "sameAs": [
+              "https://instagram.com/eflip",
+              "https://linkedin.com/company/eflip",
+              "https://x.com/eflip"
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "eFlip",
+            "url": "https://eflip.ie",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://eflip.ie/portfolio?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]}
+      />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.img
             src="/logo.png"
-            alt="eFLIP"
+            alt="eFlip — Creative Design Agency in Ireland"
             className="h-24 md:h-32 lg:h-40 w-auto mx-auto mb-6"
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

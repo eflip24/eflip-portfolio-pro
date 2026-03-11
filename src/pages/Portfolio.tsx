@@ -53,7 +53,29 @@ const Portfolio = () => {
 
   return (
     <Layout>
-      <SEOHead title="Portfolio" description="Explore eFlip's portfolio of bold websites, games, print designs, and video productions." />
+      <SEOHead
+        title="Our Work — Portfolio"
+        description="Browse eFlip's portfolio of websites, games, print designs, and video productions. See how we bring bold creative visions to life for our clients."
+        keywords="portfolio, web design portfolio, game design, print design, video production, eFlip work"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "eFlip Portfolio",
+            "description": "Browse eFlip's portfolio of websites, games, print designs, and video productions.",
+            "url": "https://eflip.ie/portfolio",
+            "isPartOf": { "@type": "WebSite", "name": "eFlip", "url": "https://eflip.ie" }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
+              { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://eflip.ie/portfolio" }
+            ]
+          }
+        ]}
+      />
       <section className="py-24">
         <div className="container mx-auto px-4">
           <motion.h1

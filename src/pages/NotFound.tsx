@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import SEOHead from "@/components/SEOHead";
 
 const NotFound = () => {
   const location = useLocation();
@@ -15,6 +16,11 @@ const NotFound = () => {
 
   return (
     <Layout>
+      <SEOHead
+        title="Page Not Found"
+        description="The page you're looking for doesn't exist. Browse eFlip's portfolio or get in touch."
+        noindex
+      />
       <section className="min-h-[80vh] flex items-center justify-center">
         <div className="text-center">
           <motion.h1

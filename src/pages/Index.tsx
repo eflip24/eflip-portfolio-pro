@@ -87,7 +87,7 @@ const Index = () => {
       const [{ data: featuredData }, { data: testimonialsData }, { data: clientsData }] = await Promise.all([
         supabase
           .from("projects")
-          .select("id, client_name, description, category, image_url")
+          .select("id, slug, client_name, description, category, image_url")
           .eq("published", true)
           .order("sort_order", { ascending: true })
           .order("created_at", { ascending: false })

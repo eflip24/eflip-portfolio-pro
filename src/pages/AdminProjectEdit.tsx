@@ -12,6 +12,7 @@ import DOMPurify from "dompurify";
 
 interface ProjectForm {
   client_name: string;
+  slug: string;
   description: string;
   category: string;
   project_url: string;

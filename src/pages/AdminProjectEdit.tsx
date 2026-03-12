@@ -57,7 +57,7 @@ const AdminProjectEdit = () => {
   const [seoImageFile, setSeoImageFile] = useState<File | null>(null);
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
   const [form, setForm] = useState<ProjectForm>({
-    client_name: "", description: "", category: "web", project_url: "", button_label: "",
+    client_name: "", slug: "", description: "", category: "web", project_url: "", button_label: "",
     image_url: "", seo_title: "", seo_description: "", seo_image: "",
     tags: "", testimonial: "", testimonial_author: "",
   });

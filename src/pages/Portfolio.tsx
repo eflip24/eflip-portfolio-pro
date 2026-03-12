@@ -10,6 +10,7 @@ import ProjectSkeleton from "@/components/ProjectSkeleton";
 
 interface Project {
   id: string;
+  slug: string;
   client_name: string;
   description: string;
   category: string;

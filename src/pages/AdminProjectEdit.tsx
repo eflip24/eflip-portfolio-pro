@@ -84,6 +84,7 @@ const AdminProjectEdit = () => {
     if (!project) { navigate("/admin"); return; }
     setForm({
       client_name: project.client_name,
+      slug: (project as any).slug || "",
       description: project.description,
       category: project.category,
       project_url: project.project_url || "",

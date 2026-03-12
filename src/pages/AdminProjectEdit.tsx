@@ -275,6 +275,11 @@ const AdminProjectEdit = () => {
             <div className="space-y-6 border border-border p-6">
               <h2 className="text-sm font-bold tracking-widest text-primary">PROJECT DETAILS</h2>
               <Input placeholder="CLIENT NAME" value={form.client_name} onChange={e => setForm({ ...form, client_name: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" required />
+              <div>
+                <label className="text-xs tracking-widest text-muted-foreground block mb-2">URL SLUG</label>
+                <Input placeholder="auto-generated-from-name" value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
+                <p className="text-[10px] text-muted-foreground mt-1 tracking-wider">Leave empty to auto-generate from client name. URL: /portfolio/{form.slug || form.client_name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-') || 'your-project'}</p>
+              </div>
               <Textarea placeholder="DESCRIPTION" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" required />
               <Select value={form.category} onValueChange={v => setForm({ ...form, category: v })}>
                 <SelectTrigger className="bg-secondary border-border text-xs tracking-wider"><SelectValue /></SelectTrigger>

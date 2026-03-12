@@ -228,7 +228,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {featured.map((project, i) => (
                 <ScrollReveal key={project.id} delay={i * 0.1}>
-                  <Link to={`/portfolio/${project.id}`}>
+                  <Link to={`/portfolio/${project.slug}`}>
                     <motion.div
                       className="group relative overflow-hidden bg-card project-card"
                       whileHover={{ y: -8 }}

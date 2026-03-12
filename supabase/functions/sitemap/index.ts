@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     for (const project of projects) {
       const lastmod = project.created_at.split("T")[0];
       xml += `  <url>
-    <loc>${baseUrl}/portfolio/${project.id}</loc>
+    <loc>${baseUrl}/portfolio/${project.slug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

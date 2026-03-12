@@ -156,8 +156,10 @@ const AdminProjectEdit = () => {
     if (seoImageFile) { const u = await uploadImage(seoImageFile); if (u) seoImageUrl = u; }
 
     const tagsArr = form.tags ? form.tags.split(",").map(t => t.trim()).filter(Boolean) : null;
+    const generatedSlug = form.slug || form.client_name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
     const payload: any = {
       client_name: form.client_name,
+      slug: generatedSlug,
       description: form.description,
       category: form.category,
       project_url: form.project_url || null,

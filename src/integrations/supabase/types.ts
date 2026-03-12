@@ -188,6 +188,7 @@ export type Database = {
           seo_description: string | null
           seo_image: string | null
           seo_title: string | null
+          slug: string
           sort_order: number
           tags: string[] | null
           testimonial: string | null
@@ -206,6 +207,7 @@ export type Database = {
           seo_description?: string | null
           seo_image?: string | null
           seo_title?: string | null
+          slug: string
           sort_order?: number
           tags?: string[] | null
           testimonial?: string | null
@@ -224,6 +226,7 @@ export type Database = {
           seo_description?: string | null
           seo_image?: string | null
           seo_title?: string | null
+          slug?: string
           sort_order?: number
           tags?: string[] | null
           testimonial?: string | null

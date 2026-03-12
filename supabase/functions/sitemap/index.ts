@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
   const [{ data: projects }, { data: blogPosts }] = await Promise.all([
     supabase
       .from("projects")
-      .select("id, created_at")
+      .select("slug, created_at")
       .eq("published", true)
       .order("created_at", { ascending: false }),
     supabase
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     for (const project of projects) {
       const lastmod = project.created_at.split("T")[0];
       xml += `  <url>
-    <loc>${baseUrl}/portfolio/${project.id}</loc>
+    <loc>${baseUrl}/portfolio/${project.slug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

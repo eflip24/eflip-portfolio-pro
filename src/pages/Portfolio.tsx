@@ -10,6 +10,7 @@ import ProjectSkeleton from "@/components/ProjectSkeleton";
 
 interface Project {
   id: string;
+  slug: string;
   client_name: string;
   description: string;
   category: string;
@@ -120,7 +121,7 @@ const Portfolio = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filtered.map((project, i) => (
                 <ScrollReveal key={project.id} delay={i * 0.08}>
-                  <Link to={`/portfolio/${project.id}`}>
+                  <Link to={`/portfolio/${project.slug}`}>
                     <motion.div
                       className="group relative overflow-hidden bg-card project-card"
                       whileHover={{ y: -8 }}

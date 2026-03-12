@@ -63,6 +63,7 @@ const StatsCounter = () => (
 
 interface Project {
   id: string;
+  slug: string;
   client_name: string;
   description: string;
   category: string;
@@ -86,7 +87,7 @@ const Index = () => {
       const [{ data: featuredData }, { data: testimonialsData }, { data: clientsData }] = await Promise.all([
         supabase
           .from("projects")
-          .select("id, client_name, description, category, image_url")
+          .select("id, slug, client_name, description, category, image_url")
           .eq("published", true)
           .order("sort_order", { ascending: true })
           .order("created_at", { ascending: false })
@@ -227,7 +228,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {featured.map((project, i) => (
                 <ScrollReveal key={project.id} delay={i * 0.1}>
-                  <Link to={`/portfolio/${project.id}`}>
+                  <Link to={`/portfolio/${project.slug}`}>
                     <motion.div
                       className="group relative overflow-hidden bg-card project-card"
                       whileHover={{ y: -8 }}

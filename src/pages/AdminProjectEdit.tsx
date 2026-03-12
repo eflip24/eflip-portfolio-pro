@@ -12,6 +12,7 @@ import DOMPurify from "dompurify";
 
 interface ProjectForm {
   client_name: string;
+  slug: string;
   description: string;
   category: string;
   project_url: string;
@@ -56,7 +57,7 @@ const AdminProjectEdit = () => {
   const [seoImageFile, setSeoImageFile] = useState<File | null>(null);
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
   const [form, setForm] = useState<ProjectForm>({
-    client_name: "", description: "", category: "web", project_url: "", button_label: "",
+    client_name: "", slug: "", description: "", category: "web", project_url: "", button_label: "",
     image_url: "", seo_title: "", seo_description: "", seo_image: "",
     tags: "", testimonial: "", testimonial_author: "",
   });
@@ -83,6 +84,7 @@ const AdminProjectEdit = () => {
     if (!project) { navigate("/admin"); return; }
     setForm({
       client_name: project.client_name,
+      slug: (project as any).slug || "",
       description: project.description,
       category: project.category,
       project_url: project.project_url || "",
@@ -154,8 +156,10 @@ const AdminProjectEdit = () => {
     if (seoImageFile) { const u = await uploadImage(seoImageFile); if (u) seoImageUrl = u; }
 
     const tagsArr = form.tags ? form.tags.split(",").map(t => t.trim()).filter(Boolean) : null;
+    const generatedSlug = form.slug || form.client_name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
     const payload: any = {
       client_name: form.client_name,
+      slug: generatedSlug,
       description: form.description,
       category: form.category,
       project_url: form.project_url || null,
@@ -271,6 +275,11 @@ const AdminProjectEdit = () => {
             <div className="space-y-6 border border-border p-6">
               <h2 className="text-sm font-bold tracking-widest text-primary">PROJECT DETAILS</h2>
               <Input placeholder="CLIENT NAME" value={form.client_name} onChange={e => setForm({ ...form, client_name: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" required />
+              <div>
+                <label className="text-xs tracking-widest text-muted-foreground block mb-2">URL SLUG</label>
+                <Input placeholder="auto-generated-from-name" value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />
+                <p className="text-[10px] text-muted-foreground mt-1 tracking-wider">Leave empty to auto-generate from client name. URL: /portfolio/{form.slug || form.client_name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-') || 'your-project'}</p>
+              </div>
               <Textarea placeholder="DESCRIPTION" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" required />
               <Select value={form.category} onValueChange={v => setForm({ ...form, category: v })}>
                 <SelectTrigger className="bg-secondary border-border text-xs tracking-wider"><SelectValue /></SelectTrigger>

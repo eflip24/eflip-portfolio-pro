@@ -129,7 +129,7 @@ const AdminProjects = ({ projects, onRefresh }: AdminProjectsProps) => {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <Button variant="ghost" size="icon" onClick={() => window.open(`/portfolio/${p.id}`, "_blank")} title="View">
+                      <Button variant="ghost" size="icon" onClick={() => window.open(`/portfolio/${(p as any).slug || p.id}`, "_blank")} title="View">
                         <Eye size={14} />
                       </Button>
                       <Button variant="ghost" size="icon" onClick={() => navigate(`/admin/project/${p.id}`)} title="Edit">

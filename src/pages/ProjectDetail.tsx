@@ -12,6 +12,7 @@ import DOMPurify from "dompurify";
 
 interface Project {
   id: string;
+  slug: string;
   client_name: string;
   description: string;
   category: string;
@@ -38,10 +39,10 @@ interface Section {
 }
 
 const ProjectDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [project, setProject] = useState<Project | null>(null);
   const [sections, setSections] = useState<Section[]>([]);
-  const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
+  const [relatedProjects, setRelatedProjects] = useState<(Project)[]>([]);
   const [prevNext, setPrevNext] = useState<{ prev: string | null; next: string | null }>({ prev: null, next: null });
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState<string | null>(null);
@@ -49,30 +50,33 @@ const ProjectDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const { data } = await supabase.from("projects").select("*").eq("id", id).single();
+      const { data } = await supabase.from("projects").select("*").eq("slug", slug).single();
       setProject(data as any);
 
       // Track page view (fire-and-forget)
-      supabase.from("page_views").insert({ page_path: `/portfolio/${id}`, project_id: id }).then(() => {});
+      if (data) {
+        supabase.from("page_views").insert({ page_path: `/portfolio/${slug}`, project_id: (data as any).id }).then(() => {});
+      }
 
       if (data) {
+        const projectData = data as any;
         const [{ data: secs }, { data: allProjects }, { data: related }] = await Promise.all([
           supabase
             .from("project_sections")
             .select("*")
-            .eq("project_id", id!)
+            .eq("project_id", projectData.id)
             .order("sort_order", { ascending: true }),
           supabase
             .from("projects")
-            .select("id, created_at")
+            .select("id, slug, created_at")
             .eq("published", true)
             .order("created_at", { ascending: false }),
           supabase
             .from("projects")
             .select("*")
-            .eq("category", (data as any).category)
+            .eq("category", projectData.category)
             .eq("published", true)
-            .neq("id", id!)
+            .neq("id", projectData.id)
             .limit(3),
         ]);
 
@@ -80,17 +84,17 @@ const ProjectDetail = () => {
         setRelatedProjects((related as any) || []);
 
         if (allProjects) {
-          const idx = allProjects.findIndex((p: any) => p.id === id);
+          const idx = allProjects.findIndex((p: any) => p.id === projectData.id);
           setPrevNext({
-            prev: idx > 0 ? allProjects[idx - 1].id : null,
-            next: idx < allProjects.length - 1 ? allProjects[idx + 1].id : null,
+            prev: idx > 0 ? allProjects[idx - 1].slug : null,
+            next: idx < allProjects.length - 1 ? allProjects[idx + 1].slug : null,
           });
         }
       }
       setLoading(false);
     };
     fetchData();
-  }, [id]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -208,7 +212,7 @@ const ProjectDetail = () => {
             "name": project.client_name,
             "description": project.description,
             "image": project.image_url || undefined,
-            "url": `https://eflip.ie/portfolio/${project.id}`,
+            "url": `https://eflip.ie/portfolio/${project.slug}`,
             "creator": { "@type": "Organization", "name": "eFlip", "url": "https://eflip.ie" },
             "dateCreated": project.created_at,
             "genre": project.category,
@@ -220,7 +224,7 @@ const ProjectDetail = () => {
             "itemListElement": [
               { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eflip.ie/" },
               { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://eflip.ie/portfolio" },
-              { "@type": "ListItem", "position": 3, "name": project.client_name, "item": `https://eflip.ie/portfolio/${project.id}` }
+              { "@type": "ListItem", "position": 3, "name": project.client_name, "item": `https://eflip.ie/portfolio/${project.slug}` }
             ]
           }
         ]}
@@ -324,7 +328,7 @@ const ProjectDetail = () => {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {relatedProjects.map((rp) => (
-                    <Link key={rp.id} to={`/portfolio/${rp.id}`}>
+                    <Link key={rp.id} to={`/portfolio/${rp.slug}`}>
                       <motion.div
                         className="group overflow-hidden bg-card border border-border"
                         whileHover={{ y: -6 }}

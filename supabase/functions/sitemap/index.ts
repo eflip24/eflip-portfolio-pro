@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
   const [{ data: projects }, { data: blogPosts }] = await Promise.all([
     supabase
       .from("projects")
-      .select("id, created_at")
+      .select("slug, created_at")
       .eq("published", true)
       .order("created_at", { ascending: false }),
     supabase

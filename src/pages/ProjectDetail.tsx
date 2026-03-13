@@ -244,7 +244,7 @@ const ProjectDetail = () => {
                 )}
 
                 {/* Description */}
-                <p className="text-muted-foreground leading-relaxed tracking-wider text-sm md:text-base mb-8">
+                <p className="text-muted-foreground/80 leading-loose tracking-wider text-base md:text-lg mb-8">
                   {project.description}
                 </p>
 

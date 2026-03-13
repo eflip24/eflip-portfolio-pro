@@ -244,7 +244,7 @@ const ProjectDetail = () => {
                 )}
 
                 {/* Description */}
-                <p className="text-muted-foreground leading-relaxed tracking-wider text-sm md:text-base mb-8">
+                <p className="text-muted-foreground/80 leading-loose tracking-wider text-base md:text-lg mb-8">
                   {project.description}
                 </p>
 
@@ -290,13 +290,13 @@ const ProjectDetail = () => {
                                 {section.content_left && (
                                   <div
                                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content_left) }}
-                                    className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider"
+                                    className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
                                   />
                                 )}
                                 {section.content_right && (
                                   <div
                                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content_right) }}
-                                    className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider"
+                                    className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
                                   />
                                 )}
                               </div>
@@ -315,7 +315,7 @@ const ProjectDetail = () => {
                               section.content_left && (
                                 <div
                                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content_left) }}
-                                  className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider"
+                                  className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
                                 />
                               )
                             )}
@@ -330,7 +330,7 @@ const ProjectDetail = () => {
                 {project.testimonial && (
                   <div className="border border-primary/20 p-6 md:p-8 relative mb-8">
                     <Quote className="text-primary/30 absolute top-4 left-4" size={28} />
-                    <blockquote className="text-muted-foreground italic tracking-wider text-sm pl-10">
+                    <blockquote className="text-muted-foreground/80 italic tracking-wider text-base md:text-lg leading-loose pl-10">
                       "{project.testimonial}"
                     </blockquote>
                     {project.testimonial_author && (

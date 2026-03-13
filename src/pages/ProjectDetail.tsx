@@ -290,13 +290,13 @@ const ProjectDetail = () => {
                                 {section.content_left && (
                                   <div
                                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content_left) }}
-                                    className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider"
+                                    className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
                                   />
                                 )}
                                 {section.content_right && (
                                   <div
                                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content_right) }}
-                                    className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider"
+                                    className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
                                   />
                                 )}
                               </div>

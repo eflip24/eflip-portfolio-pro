@@ -22,12 +22,13 @@ const ParticleField = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const PARTICLE_COUNT = 160;
-    const CONNECTION_DIST = 120;
+    const isMobile = window.innerWidth < 768;
+    const PARTICLE_COUNT = isMobile ? 50 : 160;
+    const CONNECTION_DIST = isMobile ? 80 : 120;
     const MOUSE_RADIUS = 180;
 
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -57,7 +58,16 @@ const ParticleField = () => {
       mouseRef.current = { x: -1000, y: -1000 };
     };
 
+    let frameCount = 0;
+
     const draw = (time: number) => {
+      frameCount++;
+      // Throttle: skip every other frame on mobile
+      if (isMobile && frameCount % 2 !== 0) {
+        animRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
       const w = window.innerWidth;
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
@@ -76,28 +86,25 @@ const ParticleField = () => {
 
       // Update particles
       for (const p of particles) {
-        // Mouse repulsion
-        const dmx = p.x - mx;
-        const dmy = p.y - my;
-        const mouseDist = Math.sqrt(dmx * dmx + dmy * dmy);
-        if (mouseDist < MOUSE_RADIUS && mouseDist > 0) {
-          const force = (1 - mouseDist / MOUSE_RADIUS) * 2;
-          p.vx += (dmx / mouseDist) * force * 0.15;
-          p.vy += (dmy / mouseDist) * force * 0.15;
+        // Mouse repulsion (skip on mobile)
+        if (!isMobile) {
+          const dmx = p.x - mx;
+          const dmy = p.y - my;
+          const mouseDist = Math.sqrt(dmx * dmx + dmy * dmy);
+          if (mouseDist < MOUSE_RADIUS && mouseDist > 0) {
+            const force = (1 - mouseDist / MOUSE_RADIUS) * 2;
+            p.vx += (dmx / mouseDist) * force * 0.15;
+            p.vy += (dmy / mouseDist) * force * 0.15;
+          }
         }
 
-        // Gentle drift oscillation
         p.vx += Math.sin(t + p.phase) * 0.003;
         p.vy += Math.cos(t * 0.8 + p.phase) * 0.003;
-
-        // Damping
         p.vx *= 0.99;
         p.vy *= 0.99;
-
         p.x += p.vx;
         p.y += p.vy;
 
-        // Wrap
         if (p.x < -10) p.x = w + 10;
         if (p.x > w + 10) p.x = -10;
         if (p.y < -10) p.y = h + 10;
@@ -127,15 +134,16 @@ const ParticleField = () => {
         const pulse = Math.sin(t * 1.5 + p.phase) * 0.15 + 0.85;
         const alpha = p.opacity * pulse;
 
-        // Glow
-        const glowSize = p.size * 4;
-        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowSize);
-        glow.addColorStop(0, `rgba(255, 102, 0, ${alpha * 0.4})`);
-        glow.addColorStop(1, "rgba(255, 102, 0, 0)");
-        ctx.fillStyle = glow;
-        ctx.fillRect(p.x - glowSize, p.y - glowSize, glowSize * 2, glowSize * 2);
+        // Glow (skip on mobile for perf)
+        if (!isMobile) {
+          const glowSize = p.size * 4;
+          const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowSize);
+          glow.addColorStop(0, `rgba(255, 102, 0, ${alpha * 0.4})`);
+          glow.addColorStop(1, "rgba(255, 102, 0, 0)");
+          ctx.fillStyle = glow;
+          ctx.fillRect(p.x - glowSize, p.y - glowSize, glowSize * 2, glowSize * 2);
+        }
 
-        // Core
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 102, 0, ${alpha})`;
@@ -150,8 +158,11 @@ const ParticleField = () => {
     animRef.current = requestAnimationFrame(draw);
 
     window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseleave", onMouseLeave);
+    // Only add mouse listeners on desktop
+    if (!isMobile) {
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseleave", onMouseLeave);
+    }
 
     return () => {
       cancelAnimationFrame(animRef.current);

@@ -1,11 +1,14 @@
-import { ReactNode } from "react";
+import { ReactNode, lazy, Suspense } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import ParticleField from "./ParticleField";
+
+const ParticleField = lazy(() => import("./ParticleField"));
 
 const Layout = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen flex flex-col relative">
-    <ParticleField />
+    <Suspense fallback={null}>
+      <ParticleField />
+    </Suspense>
     <Navbar />
     <main className="flex-1 pt-16 relative z-10">{children}</main>
     <Footer />

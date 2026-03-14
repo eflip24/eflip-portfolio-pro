@@ -79,12 +79,12 @@ interface Testimonial {
 const Index = () => {
   const [featured, setFeatured] = useState<Project[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [clients, setClients] = useState<string[]>([]);
+  
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
   useEffect(() => {
     const fetchData = async () => {
-      const [{ data: featuredData }, { data: testimonialsData }, { data: clientsData }] = await Promise.all([
+      const [{ data: featuredData }, { data: testimonialsData }] = await Promise.all([
         supabase
           .from("projects")
           .select("id, slug, client_name, description, category, image_url")
@@ -97,15 +97,9 @@ const Index = () => {
           .select("client_name, testimonial, testimonial_author")
           .eq("published", true)
           .not("testimonial", "is", null),
-        supabase
-          .from("projects")
-          .select("client_name")
-          .eq("published", true),
       ]);
       setFeatured(featuredData || []);
       setTestimonials((testimonialsData as Testimonial[]) || []);
-      const uniqueClients = [...new Set((clientsData || []).map((c: any) => c.client_name))];
-      setClients(uniqueClients);
     };
     fetchData();
   }, []);
@@ -309,21 +303,6 @@ const Index = () => {
         </section>
       )}
 
-      {/* Trusted By */}
-      {clients.length > 0 && (
-        <section className="py-16 border-t border-border">
-          <div className="container mx-auto px-4">
-            <p className="text-center text-xs tracking-widest text-muted-foreground mb-8">TRUSTED BY</p>
-            <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-              {clients.map((name) => (
-                <span key={name} className="text-lg md:text-xl font-bold tracking-widest text-muted-foreground/40">
-                  {name.toUpperCase()}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Teaser Section */}
       <section className="py-24">

@@ -121,7 +121,6 @@ Deno.serve(async (req) => {
   <meta property="og:url" content="${canonicalUrl}">
   <meta property="og:site_name" content="eFlip">
   <meta property="og:locale" content="en_IE">
-  <meta name="robots" content="noindex">
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@eflip">

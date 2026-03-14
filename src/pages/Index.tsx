@@ -84,7 +84,7 @@ const Index = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [{ data: featuredData }, { data: testimonialsData }, { data: clientsData }] = await Promise.all([
+      const [{ data: featuredData }, { data: testimonialsData }] = await Promise.all([
         supabase
           .from("projects")
           .select("id, slug, client_name, description, category, image_url")
@@ -97,15 +97,9 @@ const Index = () => {
           .select("client_name, testimonial, testimonial_author")
           .eq("published", true)
           .not("testimonial", "is", null),
-        supabase
-          .from("projects")
-          .select("client_name")
-          .eq("published", true),
       ]);
       setFeatured(featuredData || []);
       setTestimonials((testimonialsData as Testimonial[]) || []);
-      const uniqueClients = [...new Set((clientsData || []).map((c: any) => c.client_name))];
-      setClients(uniqueClients);
     };
     fetchData();
   }, []);

@@ -79,7 +79,7 @@ interface Testimonial {
 const Index = () => {
   const [featured, setFeatured] = useState<Project[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [clients, setClients] = useState<string[]>([]);
+  
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
   useEffect(() => {

@@ -10,6 +10,7 @@ import AdminProjects from "@/components/admin/AdminProjects";
 import AdminInquiries from "@/components/admin/AdminInquiries";
 import AdminBlog from "@/components/admin/AdminBlog";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
+import SEOHead from "@/components/SEOHead";
 
 const CATEGORIES = ["Web", "Games", "Print", "Video"];
 
@@ -83,6 +84,7 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
+      <SEOHead title="Admin Dashboard" noindex />
       <div className="container mx-auto max-w-6xl space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">

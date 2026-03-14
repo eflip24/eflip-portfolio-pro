@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import SEOHead from "@/components/SEOHead";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -38,6 +39,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
+      <SEOHead title="Login" noindex />
       <motion.div
         className="w-full max-w-sm p-8 border border-border"
         initial={{ opacity: 0, scale: 0.95 }}

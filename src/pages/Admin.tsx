@@ -10,6 +10,7 @@ import AdminProjects from "@/components/admin/AdminProjects";
 import AdminInquiries from "@/components/admin/AdminInquiries";
 import AdminBlog from "@/components/admin/AdminBlog";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
+import SEOHead from "@/components/SEOHead";
 
 const CATEGORIES = ["Web", "Games", "Print", "Video"];
 

@@ -84,6 +84,7 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
+      <SEOHead title="Admin Dashboard" noindex />
       <div className="container mx-auto max-w-6xl space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">

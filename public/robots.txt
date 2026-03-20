@@ -19,4 +19,4 @@ Allow: /
 Disallow: /admin
 Disallow: /login
 
-Sitemap: https://ffyloqahsmfrmhxvxmtu.supabase.co/functions/v1/sitemap
+Sitemap: https://eflip.ie/sitemap.xml

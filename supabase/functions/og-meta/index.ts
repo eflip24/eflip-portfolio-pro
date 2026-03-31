@@ -130,10 +130,11 @@ Deno.serve(async (req) => {
   
   ${jsonLd ? `<script type="application/ld+json">${jsonLd}</script>` : ""}
   
-  <meta http-equiv="refresh" content="0;url=${canonicalUrl}">
+
 </head>
 <body>
-  <p>Redirecting to <a href="${canonicalUrl}">${escapeHtml(title)}</a></p>
+  <h1>${escapeHtml(title)}</h1>
+  <p>${escapeHtml(description)}</p>
 </body>
 </html>`;
 

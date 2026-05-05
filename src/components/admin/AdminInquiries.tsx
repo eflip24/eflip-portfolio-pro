@@ -153,6 +153,27 @@ const AdminInquiries = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={!!viewing} onOpenChange={(open) => !open && setViewing(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="tracking-widest text-sm">
+              {viewing?.name?.toUpperCase()}
+            </DialogTitle>
+            <DialogDescription className="tracking-wider text-xs space-y-1">
+              <a href={`mailto:${viewing?.email}`} className="text-primary hover:underline block">
+                {viewing?.email}
+              </a>
+              <span className="text-muted-foreground block">
+                {viewing && format(new Date(viewing.created_at), "dd MMM yyyy, HH:mm")}
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 max-h-[50vh] overflow-y-auto whitespace-pre-wrap text-sm tracking-wider leading-relaxed border-t border-border pt-4">
+            {viewing?.message}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

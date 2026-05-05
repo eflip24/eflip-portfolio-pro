@@ -110,6 +110,12 @@ const AdminInquiries = () => {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-1">
+                    <Button variant="ghost" size="icon" onClick={() => {
+                      setViewing(s);
+                      if (s.status === "new") updateStatus(s.id, "read");
+                    }} title="View message">
+                      <Eye size={14} />
+                    </Button>
                     {s.status === "new" && (
                       <Button variant="ghost" size="icon" onClick={() => updateStatus(s.id, "read")} title="Mark as read">
                         <MailOpen size={14} />

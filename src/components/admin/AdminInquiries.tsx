@@ -34,6 +34,7 @@ const statusColors: Record<string, string> = {
 const AdminInquiries = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewing, setViewing] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetch = async () => {

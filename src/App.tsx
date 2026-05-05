@@ -19,6 +19,7 @@ import Admin from "./pages/Admin";
 import AdminProjectEdit from "./pages/AdminProjectEdit";
 import AdminBlogEdit from "./pages/AdminBlogEdit";
 import NotFound from "./pages/NotFound";
+import Unsubscribe from "./pages/Unsubscribe";
 
 const queryClient = new QueryClient();
 

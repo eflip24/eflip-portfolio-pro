@@ -19,6 +19,7 @@ import Admin from "./pages/Admin";
 import AdminProjectEdit from "./pages/AdminProjectEdit";
 import AdminBlogEdit from "./pages/AdminBlogEdit";
 import NotFound from "./pages/NotFound";
+import Unsubscribe from "./pages/Unsubscribe";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const AnimatedRoutes = () => {
         <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
         <Route path="/admin/project/:id" element={<PageTransition><AdminProjectEdit /></PageTransition>} />
         <Route path="/admin/blog/:id" element={<PageTransition><AdminBlogEdit /></PageTransition>} />
+        <Route path="/unsubscribe" element={<PageTransition><Unsubscribe /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>

@@ -45,7 +45,9 @@ const Contact = () => {
   const form = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: FormData) => {
+    const id = crypto.randomUUID();
     const { error } = await supabase.from("contact_submissions").insert({
+      id,
       name: data.name,
       email: data.email,
       message: data.message,
@@ -56,6 +58,22 @@ const Contact = () => {
       toast.error("FAILED TO SEND. PLEASE TRY AGAIN.");
       return;
     }
+    const serviceLabel = serviceOptions.find(o => o.value === data.service_type)?.label;
+    const budgetLabel = budgetOptions.find(o => o.value === data.budget_range)?.label;
+    supabase.functions.invoke("send-transactional-email", {
+      body: {
+        templateName: "contact-inquiry-admin",
+        recipientEmail: "info@eflip.ie",
+        idempotencyKey: `contact-admin-${id}`,
+        templateData: {
+          name: data.name,
+          email: data.email,
+          serviceType: serviceLabel,
+          budgetRange: budgetLabel,
+          message: data.message,
+        },
+      },
+    }).catch((e) => console.error("Notification email failed", e));
     setSubmitted(true);
     form.reset();
   };

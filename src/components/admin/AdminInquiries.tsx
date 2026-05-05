@@ -10,8 +10,11 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Trash2, Mail, MailOpen, Archive, Inbox } from "lucide-react";
+import { Trash2, Mail, MailOpen, Archive, Inbox, Eye } from "lucide-react";
 import { format } from "date-fns";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
+} from "@/components/ui/dialog";
 
 interface Submission {
   id: string;

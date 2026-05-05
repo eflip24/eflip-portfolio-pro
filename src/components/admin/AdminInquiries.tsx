@@ -10,8 +10,11 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Trash2, Mail, MailOpen, Archive, Inbox } from "lucide-react";
+import { Trash2, Mail, MailOpen, Archive, Inbox, Eye } from "lucide-react";
 import { format } from "date-fns";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
+} from "@/components/ui/dialog";
 
 interface Submission {
   id: string;
@@ -31,6 +34,7 @@ const statusColors: Record<string, string> = {
 const AdminInquiries = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewing, setViewing] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetch = async () => {
@@ -106,6 +110,12 @@ const AdminInquiries = () => {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-1">
+                    <Button variant="ghost" size="icon" onClick={() => {
+                      setViewing(s);
+                      if (s.status === "new") updateStatus(s.id, "read");
+                    }} title="View message">
+                      <Eye size={14} />
+                    </Button>
                     {s.status === "new" && (
                       <Button variant="ghost" size="icon" onClick={() => updateStatus(s.id, "read")} title="Mark as read">
                         <MailOpen size={14} />
@@ -143,6 +153,27 @@ const AdminInquiries = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={!!viewing} onOpenChange={(open) => !open && setViewing(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="tracking-widest text-sm">
+              {viewing?.name?.toUpperCase()}
+            </DialogTitle>
+            <DialogDescription className="tracking-wider text-xs space-y-1">
+              <a href={`mailto:${viewing?.email}`} className="text-primary hover:underline block">
+                {viewing?.email}
+              </a>
+              <span className="text-muted-foreground block">
+                {viewing && format(new Date(viewing.created_at), "dd MMM yyyy, HH:mm")}
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 max-h-[50vh] overflow-y-auto whitespace-pre-wrap text-sm tracking-wider leading-relaxed border-t border-border pt-4">
+            {viewing?.message}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

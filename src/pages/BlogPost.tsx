@@ -144,7 +144,16 @@ const BlogPost = () => {
               { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://eflip.ie/blog" },
               { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://eflip.ie/blog/${post.slug}` }
             ]
-          }
+          },
+          ...(post.faq && post.faq.length > 0 ? [{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": post.faq.map(f => ({
+              "@type": "Question",
+              "name": f.question,
+              "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+            }))
+          }] : [])
         ]}
       />
       <section className="py-24">

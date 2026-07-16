@@ -80,7 +80,7 @@ function renderSitemap(entries: Entry[]): string {
 
 async function main() {
   const [projects, posts] = await Promise.all([
-    fetchRows("projects", "slug,updated_at,created_at", "published=eq.true"),
+    fetchRows("projects", "slug,created_at", "published=eq.true"),
     fetchRows("blog_posts", "slug,updated_at,created_at", "published=eq.true"),
   ]);
 

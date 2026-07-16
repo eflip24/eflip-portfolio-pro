@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
 import ProjectDetail from "./pages/ProjectDetail";
@@ -62,6 +63,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <AnimatedRoutes />
         </BrowserRouter>
       </TooltipProvider>

@@ -72,7 +72,7 @@ export const template = {
     name: 'Jane Doe',
     email: 'jane@example.com',
     serviceType: 'WEB DESIGN',
-    budgetRange: '£10,000 – £25,000',
+    budgetRange: '€10,000 – €25,000',
     message: 'Hi, I would love to chat about a new website for my business.',
   },
 } satisfies TemplateEntry

@@ -205,6 +205,20 @@ const BlogPost = () => {
               className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider leading-relaxed"
             />
 
+            {post.faq && post.faq.length > 0 && (
+              <div className="mt-12 border-t border-border pt-8">
+                <h2 className="text-lg font-bold tracking-widest mb-6">FREQUENTLY ASKED QUESTIONS</h2>
+                <div className="space-y-6">
+                  {post.faq.map((f, i) => (
+                    <div key={i}>
+                      <h3 className="text-sm font-bold tracking-wider mb-2">{f.question}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{f.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Share buttons */}
             <div className="mt-12 border-t border-border pt-8">
               <p className="text-xs tracking-widest text-muted-foreground mb-4">SHARE THIS POST</p>

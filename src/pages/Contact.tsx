@@ -33,10 +33,10 @@ const serviceOptions = [
 ];
 
 const budgetOptions = [
-  { value: "under-5k", label: "UNDER £5,000" },
-  { value: "5k-10k", label: "£5,000 – £10,000" },
-  { value: "10k-25k", label: "£10,000 – £25,000" },
-  { value: "25k-plus", label: "£25,000+" },
+  { value: "under-5k", label: "UNDER €5,000" },
+  { value: "5k-10k", label: "€5,000 – €10,000" },
+  { value: "10k-25k", label: "€10,000 – €25,000" },
+  { value: "25k-plus", label: "€25,000+" },
   { value: "not-sure", label: "NOT SURE YET" },
 ];
 

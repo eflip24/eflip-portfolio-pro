@@ -77,7 +77,7 @@ const Services = () => (
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design", "description": "Responsive, modern websites that convert visitors into customers." } },
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Game Design", "description": "Immersive gaming experiences with stunning visuals and engaging mechanics." } },
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Print Design", "description": "Striking print materials — business cards, brochures, posters, packaging." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "eflip AI", "description": "Practical AI solutions for local businesses — identify the right tools, connect existing systems, and build workflows that save time and fuel growth." } }
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "eflip AI", "description": "We help local businesses adopt the right AI tools, connect them to your systems, and build time-saving workflows that support growth.", "url": "https://eflip.ie/ai" } }
             ]
           }
         },

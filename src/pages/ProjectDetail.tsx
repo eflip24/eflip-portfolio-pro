@@ -312,7 +312,7 @@ const ProjectDetail = () => {
                                 )}
                                 {section.content_right && (
                                   <div
-                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content_right) }}
+                                    dangerouslySetInnerHTML={{ __html: formatContent(section.content_right) }}
                                     className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
                                   />
                                 )}

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Globe, Gamepad2, Printer, Video, Search, Palette, Code, Rocket } from "lucide-react";
+import { Globe, Gamepad2, Printer, Sparkles, Search, Palette, Code, Rocket } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -23,9 +23,9 @@ const services = [
     desc: "STRIKING PRINT MATERIALS — BUSINESS CARDS, BROCHURES, POSTERS, PACKAGING — DESIGNED TO STAND OUT.",
   },
   {
-    icon: Video,
-    title: "VIDEO PRODUCTION",
-    desc: "CINEMATIC VIDEOS, MOTION GRAPHICS, AND ANIMATIONS THAT TELL YOUR STORY WITH IMPACT.",
+    icon: Sparkles,
+    title: "eflip AI",
+    desc: "WE HELP LOCAL BUSINESSES ADOPT THE RIGHT AI TOOLS IN A PRACTICAL AND EFFECTIVE WAY. WE IDENTIFY THE BEST TOOLS FOR YOUR BUSINESS, CONNECT THEM WITH YOUR EXISTING SYSTEMS, AND BUILD SIMPLE WORKFLOWS THAT SAVE TIME AND HELP YOU GROW.",
   },
 ];
 
@@ -59,24 +59,24 @@ const process = [
 const Services = () => (
   <Layout>
     <SEOHead
-      title="Services — Web Design, Games, Print & Video"
-      description="Professional web design, game development, print design, and video production services. eFlip delivers creative solutions tailored to your brand in Ireland."
-      keywords="web design Ireland, game development, print design, video production, branding, UI UX design, eFlip services"
+      title="Services — Web Design, Games, Print & eflip AI"
+      description="Professional web design, game development, print design, and AI automation services for local businesses. eFlip delivers practical AI solutions and creative design tailored to your brand in Ireland."
+      keywords="web design Ireland, game development, print design, AI automation, local business AI, AI tools, eFlip AI, branding, UI UX design, eFlip services"
       jsonLd={[
         {
           "@context": "https://schema.org",
           "@type": "Service",
-          "serviceType": "Design Services",
+          "serviceType": "Design & AI Services",
           "provider": { "@type": "Organization", "name": "eFlip", "url": "https://eflip.ie" },
           "areaServed": { "@type": "Country", "name": "Ireland" },
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": "Design Services",
+            "name": "Design & AI Services",
             "itemListElement": [
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design", "description": "Responsive, modern websites that convert visitors into customers." } },
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Game Design", "description": "Immersive gaming experiences with stunning visuals and engaging mechanics." } },
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Print Design", "description": "Striking print materials — business cards, brochures, posters, packaging." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Video Production", "description": "Cinematic videos, motion graphics, and animations that tell your story." } }
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "eflip AI", "description": "Practical AI solutions for local businesses — identify the right tools, connect existing systems, and build workflows that save time and fuel growth." } }
             ]
           }
         },

@@ -108,20 +108,29 @@ const Services = () => (
           {services.map((s, i) => (
             <ScrollReveal key={s.title} delay={i * 0.15}>
               <motion.div
-                className="border border-border p-8 group hover:border-primary transition-colors"
+                className="border border-border p-8 group hover:border-primary transition-colors h-full flex flex-col"
                 whileHover={{ y: -4 }}
               >
                 <s.icon className="w-10 h-10 text-primary mb-6" strokeWidth={1.5} />
                 <h3 className="text-xl font-bold tracking-widest mb-4">{s.title}</h3>
-                <p className="text-muted-foreground text-xs tracking-wider leading-relaxed">
+                <p className="text-muted-foreground text-xs tracking-wider leading-relaxed flex-1">
                   {s.desc}
                 </p>
+                {s.href && (
+                  <Link
+                    to={s.href}
+                    className="mt-6 text-xs tracking-widest text-primary hover:underline"
+                  >
+                    LEARN MORE →
+                  </Link>
+                )}
               </motion.div>
             </ScrollReveal>
           ))}
         </div>
       </div>
     </section>
+
 
     {/* How We Work */}
     <section className="py-24 border-t border-border">

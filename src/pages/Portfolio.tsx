@@ -19,14 +19,14 @@ interface Project {
   created_at: string;
 }
 
-const categories = ["ALL", "WEB", "GAMES", "PRINT", "VIDEO"];
+const categories = ["ALL", "WEB", "GAMES", "PRINT", "EFLIP AI"];
 
 const categoryDescriptions: Record<string, string> = {
   ALL: "A SHOWCASE OF OUR FINEST WORK ACROSS ALL DISCIPLINES",
   WEB: "BOLD, IMMERSIVE WEBSITES BUILT TO CAPTIVATE AND CONVERT",
   GAMES: "SHORT, SHARP SHOCKS TO PROMOTE GAME LAUNCHES AND GAMING BRANDS",
   PRINT: "TACTILE DESIGN THAT DEMANDS ATTENTION IN THE PHYSICAL WORLD",
-  VIDEO: "CINEMATIC PRODUCTIONS THAT TELL STORIES WORTH WATCHING",
+  "EFLIP AI": "PRACTICAL AI SOLUTIONS AND AUTOMATIONS FOR LOCAL BUSINESSES",
 };
 
 const Portfolio = () => {
@@ -50,20 +50,24 @@ const Portfolio = () => {
 
   const filtered = filter === "ALL"
     ? projects
-    : projects.filter((p) => p.category.toUpperCase() === filter);
+    : projects.filter((p) => {
+        const cat = p.category.toUpperCase();
+        if (filter === "EFLIP AI") return cat === "EFLIP AI" || cat === "AI" || cat === "VIDEO";
+        return cat === filter;
+      });
 
   return (
     <Layout>
       <SEOHead
         title="Our Work — Portfolio"
-        description="Browse eFlip's portfolio of websites, games, print designs, and video productions. See how we bring bold creative visions to life for our clients."
-        keywords="portfolio, web design portfolio, game design, print design, video production, eFlip work"
+        description="Browse eFlip's portfolio of websites, games, print designs, and eflip AI projects. See how we bring bold creative visions to life for our clients."
+        keywords="portfolio, web design portfolio, game design, print design, eflip AI, AI automation, eFlip work"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             "name": "eFlip Portfolio",
-            "description": "Browse eFlip's portfolio of websites, games, print designs, and video productions.",
+            "description": "Browse eFlip's portfolio of websites, games, print designs, and eflip AI projects.",
             "url": "https://eflip.ie/portfolio",
             "isPartOf": { "@type": "WebSite", "name": "eFlip", "url": "https://eflip.ie" }
           },

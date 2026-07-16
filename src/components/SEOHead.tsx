@@ -13,8 +13,8 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({
-  title = "eFlip — Creative Design Agency in Ireland | Web, Games, Print & Video",
-  description = "eFlip is an Irish design agency specialising in web design, game development, print media, and video production. Bold creative solutions that elevate your brand.",
+  title = "eFlip — Creative Design Agency in Ireland | Web, Games, Print & eflip AI",
+  description = "eFlip is an Irish design agency specialising in web design, game development, print media, and eflip AI — practical AI solutions for local businesses.",
   image = "https://eflip.ie/og-image.png",
   url,
   type = "website",
@@ -23,7 +23,7 @@ const SEOHead = ({
   jsonLd,
 }: SEOHeadProps) => {
   const location = useLocation();
-  const fullTitle = title === "eFlip — Creative Design Agency in Ireland | Web, Games, Print & Video" ? title : `${title} | eFlip`;
+  const fullTitle = title === "eFlip — Creative Design Agency in Ireland | Web, Games, Print & eflip AI" ? title : `${title} | eFlip`;
   const canonicalUrl = url || `https://eflip.ie${location.pathname}`;
 
   const jsonLdArray = jsonLd

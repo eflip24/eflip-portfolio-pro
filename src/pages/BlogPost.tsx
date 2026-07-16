@@ -44,7 +44,7 @@ const BlogPost = () => {
         .eq("slug", slug)
         .eq("published", true)
         .single();
-      setPost(data as Post | null);
+      setPost(data as unknown as Post | null);
       setLoading(false);
     };
     fetchPost();

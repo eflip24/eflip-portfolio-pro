@@ -22,6 +22,7 @@ const staticEntries: Entry[] = [
   { path: "/", lastmod: today, changefreq: "weekly", priority: "1.0" },
   { path: "/portfolio", lastmod: today, changefreq: "weekly", priority: "0.9" },
   { path: "/services", lastmod: today, changefreq: "monthly", priority: "0.8" },
+  { path: "/custom-web-design", lastmod: today, changefreq: "monthly", priority: "0.8" },
   { path: "/ai", lastmod: today, changefreq: "monthly", priority: "0.8" },
   { path: "/print-design", lastmod: today, changefreq: "monthly", priority: "0.8" },
   { path: "/blog", lastmod: today, changefreq: "weekly", priority: "0.8" },

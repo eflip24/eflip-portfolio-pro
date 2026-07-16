@@ -10,7 +10,11 @@ export interface TemplateEntry {
 }
 
 import { template as contactInquiryAdmin } from './contact-inquiry-admin.tsx'
+import { template as blogDraftReady } from './blog-draft-ready.tsx'
+import { template as blogAutoPublished } from './blog-auto-published.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'contact-inquiry-admin': contactInquiryAdmin,
+  'blog-draft-ready': blogDraftReady,
+  'blog-auto-published': blogAutoPublished,
 }

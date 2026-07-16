@@ -20,6 +20,7 @@ import AdminProjectEdit from "./pages/AdminProjectEdit";
 import AdminBlogEdit from "./pages/AdminBlogEdit";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
+import AI from "./pages/AI";
 
 const queryClient = new QueryClient();
 

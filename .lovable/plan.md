@@ -1,58 +1,53 @@
-# SEO Improvement Plan — eflip.ie
+## Changes
 
-The foundational SEO (sitemap, robots, per-page meta, JSON-LD, Cloudflare crawler proxy, edge function for OG tags) is already in place. This plan focuses on the next layer: **content depth, on-page optimisation, technical polish, and off-page authority**.
+### 1. Update Services page (`src/pages/Services.tsx`)
+Replace the eflip AI description on the services card with the shorter version:
+> "We help local businesses adopt the right AI tools, connect them to your systems, and build time-saving workflows that support growth."
 
-## 1. Content & Keyword Strategy
+Also update the matching `OfferCatalog` JSON-LD description to match.
 
-**Problem:** Current copy is brand-focused ("bold", "extraordinary") but light on the actual terms clients search for. Google needs topical signals.
+### 2. Create new page `src/pages/AI.tsx` at route `/ai`
+Register the route in `src/App.tsx` (above the `*` NotFound catch-all).
 
-- **Rewrite Services page** around search-intent keywords: "web design Ireland", "game UI design", "esports website design", "print design Dublin", "video production Ireland". One dedicated H2 section per service with 150-250 words of substantive copy.
-- **Add location signals** — mention Ireland/Dublin naturally in H1/H2 on Home, About, Services, Contact. Add a `LocalBusiness` JSON-LD block with address (once you're happy to publish it) on the Contact page.
-- **Publish 4–6 pillar blog posts** targeting long-tail terms competitors rank for (e.g. "how to design an esports tournament landing page", "game trading marketplace UX case study"). Each 1000-1500 words, linked from at least 2 portfolio pages.
+Design: matches the site's dark theme, orange accent, uppercase display type, and Framer Motion reveals used elsewhere (mirroring Services.tsx patterns — hero, numbered process steps, card grids, final CTA).
 
-## 2. Portfolio Page Depth
+Sections (in order):
 
-**Problem:** Portfolio pages are visually strong but thin on indexable text. Google can't rank a page on 3 sentences.
+1. **Hero**
+   - H1: "eflip AI"
+   - Subheadline: "Practical AI solutions for local businesses"
+   - Paragraph: help local businesses in Ireland find the right AI tools, connect them to existing systems, save time, improve service, and grow — without the overwhelm.
+   - Primary CTA → `/contact` ("Book a Free Discovery Call")
+   - Secondary CTA → `/services` ("View All Services")
 
-- Ensure every project has: 250+ word description, at least 3 `sections` (challenge / approach / result), and a testimonial.
-- Add an FAQ block per project (2-3 Q&As) and emit `FAQPage` JSON-LD.
-- Add `ImageObject` structured data on the hero image with proper `caption` and `contentUrl`.
-- Add internal "Related projects" links (already in sidebar) — good; ensure anchor text uses the client name, not "view project".
+2. **What is eflip AI?** — short explainer paragraph block.
 
-## 3. On-Page Technical
+3. **How Local Businesses Are Using AI in 2026** — intro + 5-bullet list of common wins.
 
-- **Add `alt` text audit** — many portfolio images use the client name only; expand to describe the image ("Arc Raiders trading marketplace landing page mockup on desktop").
-- **Heading hierarchy** — confirm one H1 per page and logical H2/H3 order (Portfolio detail currently uses the title as a large div, not always an H1).
-- **Core Web Vitals** — largest hero images should be `loading="eager"` + `fetchpriority="high"`; everything else already lazy. Preload the hero webfont if any custom font is used.
-- **Image format** — serve portfolio hero images as WebP with width-descriptor `srcset` for mobile.
-- **Canonical review** — spot-check that `/portfolio/[slug]` self-references and never falls back to `/`.
+4. **Real Examples by Industry** — three grouped cards:
+   - Estate Agents (5 bullets)
+   - Solicitors & Law Firms (5 bullets)
+   - Other Local Businesses (cafes/clinics/trades/accountants/retail — 5 bullets)
 
-## 4. Sitemap Automation
+5. **What We Do For You** — 6 items (Discovery & Assessment, Tool Selection, Integration, Workflow Design, Setup & Training, Ongoing Support) as a card grid with title + "how it helps you" line.
 
-**Problem:** `public/sitemap.xml` is hand-maintained. It'll go stale the moment you add a project.
+6. **Key Benefits** — 6-item card/list grid (save time, faster responses 24/7, better lead conversion, less admin, scale without hiring, clear recommendations).
 
-- Add a build-time script (`scripts/generate-sitemap.ts`) that queries the DB and writes `public/sitemap.xml` before `vite build`. Wire it into the `build` npm script.
-- Include blog posts once they exist.
-- Update `<lastmod>` per URL from `updated_at`.
+7. **How It Works** — 5 numbered steps (Discovery Call → Custom Recommendation → Implementation → Training & Handover → Ongoing Optimisation), styled like the existing PROCESS section on `/services`.
 
-## 5. Off-Page / Authority
+8. **Who It's For** — short line naming Ireland local businesses (cafes, clinics, trades, retail, service businesses, estate agents, solicitors, accountants).
 
-- **Backlinks** — reach out to 5–10 industry blogs (esports design roundups, Dribbble/Behance features, Ireland design directories) with your best 2 case studies.
-- **Business listings** — Google Business Profile, Clutch, DesignRush, LinkedIn Company Page. Consistent NAP (Name/Address/Phone).
-- **Social sameAs** — the current Organization JSON-LD lists `instagram.com/eflip`, `linkedin.com/company/eflip`, `x.com/eflip`. Confirm these accounts actually exist at those handles or remove/replace — Google penalises broken sameAs.
+9. **Final CTA** — "Ready to bring AI into your business?" + primary "Book a Free Discovery Call" → `/contact`.
 
-## 6. Analytics & Monitoring
+### 3. SEO
+- `SEOHead` with title "eflip AI — Practical AI for Local Businesses in Ireland", description matching the hero paragraph, and canonical `https://eflip.ie/ai`.
+- Add a `Service` JSON-LD block for eflip AI.
+- Sitemap: `/ai` will be added on the next static-page pass — `scripts/generate-sitemap.ts` currently emits a fixed static list, so I'll add `/ai` to that list too so it appears in `public/sitemap.xml` on next build.
 
-- **Google Search Console** — submit `https://eflip.ie/sitemap.xml`, monitor Coverage weekly for 4 weeks, fix any "Discovered - not indexed" pages.
-- **Add Bing Webmaster Tools** — free, easy, sends real traffic.
-- **Track keyword positions monthly** for your top 20 target terms (I can pull these via the Semrush tool on demand).
+### Suggested improvements (not implementing unless you say yes)
+- Add a small "Featured in eflip AI" teaser card to the Services page card so it links through to `/ai` for more detail.
+- Add 2–3 short client-style testimonials or a "Recent AI project" block once you have one — social proof lifts conversion on service pages.
+- Add an FAQ section (with `FAQPage` JSON-LD) covering pricing, timelines, data privacy, and what tools you commonly recommend — good for SEO and pre-empts sales objections.
+- Offer a lightweight "AI readiness" lead magnet (short form / checklist) instead of only a discovery call CTA, to capture visitors not ready to book.
 
-## What I'd build first (recommended order)
-
-1. Services page rewrite with keyword-targeted H2 sections *(biggest ranking lift for the effort)*
-2. Portfolio description expansion + FAQ blocks *(unlocks long-tail traffic)*
-3. Build-time sitemap generation *(fixes the staleness problem permanently)*
-4. Image alt-text pass + hero `fetchpriority` *(quick Core Web Vitals win)*
-5. First 2 pillar blog posts
-
-Approve and I'll start with step 1, or tell me which item to tackle first.
+Tell me if you want any of those folded into this build or left for later.

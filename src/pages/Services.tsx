@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Globe, Gamepad2, Printer, Video, Search, Palette, Code, Rocket } from "lucide-react";
+import { Globe, Gamepad2, Printer, Sparkles, Search, Palette, Code, Rocket } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";

@@ -17,7 +17,7 @@ const Footer = () => (
             <img src="/logo.png" alt="eFLIP" className="h-8 w-auto" />
           </Link>
           <p className="text-muted-foreground text-xs tracking-wider mt-4 leading-relaxed">
-            BOLD DESIGN FOR BOLD BRANDS. WE CREATE THE EXTRAORDINARY ACROSS WEB, GAMES, PRINT & VIDEO.
+            BOLD DESIGN FOR BOLD BRANDS. WE CREATE THE EXTRAORDINARY ACROSS WEB, GAMES, PRINT & EFLIP AI.
           </p>
         </div>
 

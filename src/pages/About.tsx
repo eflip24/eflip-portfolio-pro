@@ -7,7 +7,7 @@ const About = () => (
   <Layout>
     <SEOHead
       title="About Us — Meet the eFlip Creative Team"
-      description="Learn about eFlip, a bold design collective in Ireland pushing creative boundaries across web, games, print, and video since 2016."
+      description="Learn about eFlip, a bold design collective in Ireland pushing creative boundaries across web, games, print, and eflip AI since 2016."
       keywords="about eFlip, design agency Ireland, creative team, web design company, game development studio"
       jsonLd={[
         {
@@ -22,7 +22,7 @@ const About = () => (
             "url": "https://eflip.ie",
             "foundingDate": "2016",
             "areaServed": { "@type": "Country", "name": "Ireland" },
-            "knowsAbout": ["Web Design", "Game Development", "Print Design", "Video Production"]
+            "knowsAbout": ["Web Design", "Game Development", "Print Design", "eflip AI"]
           }
         },
         {
@@ -72,7 +72,7 @@ const About = () => (
           <div className="border border-border p-8 md:p-12">
             <h2 className="text-2xl font-bold tracking-widest mb-6 text-primary">WHAT WE DO</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {["WEBSITES", "GAMES", "PRINTING", "VIDEOS"].map((s) => (
+              {["WEBSITES", "GAMES", "PRINTING", "EFLIP AI"].map((s) => (
                 <div
                   key={s}
                   className="border border-border p-4 text-center hover:border-primary hover:text-primary transition-colors"

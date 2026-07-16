@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
+interface FaqItem { question: string; answer: string }
 interface Post {
   id: string;
   title: string;
@@ -27,6 +28,7 @@ interface Post {
   seo_title: string | null;
   seo_description: string | null;
   seo_image: string | null;
+  faq: FaqItem[] | null;
 }
 
 const BlogPost = () => {
@@ -42,7 +44,7 @@ const BlogPost = () => {
         .eq("slug", slug)
         .eq("published", true)
         .single();
-      setPost(data as Post | null);
+      setPost(data as unknown as Post | null);
       setLoading(false);
     };
     fetchPost();
@@ -142,7 +144,16 @@ const BlogPost = () => {
               { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://eflip.ie/blog" },
               { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://eflip.ie/blog/${post.slug}` }
             ]
-          }
+          },
+          ...(post.faq && post.faq.length > 0 ? [{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": post.faq.map(f => ({
+              "@type": "Question",
+              "name": f.question,
+              "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+            }))
+          }] : [])
         ]}
       />
       <section className="py-24">
@@ -193,6 +204,20 @@ const BlogPost = () => {
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
               className="prose prose-invert prose-sm max-w-none text-muted-foreground tracking-wider leading-relaxed"
             />
+
+            {post.faq && post.faq.length > 0 && (
+              <div className="mt-12 border-t border-border pt-8">
+                <h2 className="text-lg font-bold tracking-widest mb-6">FREQUENTLY ASKED QUESTIONS</h2>
+                <div className="space-y-6">
+                  {post.faq.map((f, i) => (
+                    <div key={i}>
+                      <h3 className="text-sm font-bold tracking-wider mb-2">{f.question}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{f.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Share buttons */}
             <div className="mt-12 border-t border-border pt-8">

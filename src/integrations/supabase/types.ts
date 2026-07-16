@@ -21,15 +21,21 @@ export type Database = {
           cover_image: string | null
           created_at: string
           excerpt: string
+          faq: Json | null
           id: string
+          is_ai_draft: boolean
+          keyword_data: Json | null
           published: boolean
           read_time: number | null
+          scheduled_publish_at: string | null
           seo_description: string | null
           seo_image: string | null
           seo_title: string | null
           slug: string
+          sources: Json | null
           tags: string[] | null
           title: string
+          topic_id: string | null
           updated_at: string
         }
         Insert: {
@@ -38,15 +44,21 @@ export type Database = {
           cover_image?: string | null
           created_at?: string
           excerpt?: string
+          faq?: Json | null
           id?: string
+          is_ai_draft?: boolean
+          keyword_data?: Json | null
           published?: boolean
           read_time?: number | null
+          scheduled_publish_at?: string | null
           seo_description?: string | null
           seo_image?: string | null
           seo_title?: string | null
           slug: string
+          sources?: Json | null
           tags?: string[] | null
           title: string
+          topic_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -55,14 +67,79 @@ export type Database = {
           cover_image?: string | null
           created_at?: string
           excerpt?: string
+          faq?: Json | null
           id?: string
+          is_ai_draft?: boolean
+          keyword_data?: Json | null
           published?: boolean
           read_time?: number | null
+          scheduled_publish_at?: string | null
           seo_description?: string | null
           seo_image?: string | null
           seo_title?: string | null
           slug?: string
+          sources?: Json | null
           tags?: string[] | null
+          title?: string
+          topic_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "blog_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_topics: {
+        Row: {
+          angle: string | null
+          category: string
+          created_at: string
+          id: string
+          internal_links: string[] | null
+          last_error: string | null
+          post_id: string | null
+          primary_keyword: string | null
+          priority: number
+          scheduled_for: string | null
+          status: string
+          target_audience: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          angle?: string | null
+          category: string
+          created_at?: string
+          id?: string
+          internal_links?: string[] | null
+          last_error?: string | null
+          post_id?: string | null
+          primary_keyword?: string | null
+          priority?: number
+          scheduled_for?: string | null
+          status?: string
+          target_audience?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          angle?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          internal_links?: string[] | null
+          last_error?: string | null
+          post_id?: string | null
+          primary_keyword?: string | null
+          priority?: number
+          scheduled_for?: string | null
+          status?: string
+          target_audience?: string | null
           title?: string
           updated_at?: string
         }

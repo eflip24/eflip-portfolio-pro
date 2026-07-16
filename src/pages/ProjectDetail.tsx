@@ -331,7 +331,7 @@ const ProjectDetail = () => {
                             ) : (
                               section.content_left && (
                                 <div
-                                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content_left) }}
+                                  dangerouslySetInnerHTML={{ __html: formatContent(section.content_left) }}
                                   className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
                                 />
                               )

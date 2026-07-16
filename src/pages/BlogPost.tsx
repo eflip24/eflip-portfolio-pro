@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
+interface FaqItem { question: string; answer: string }
 interface Post {
   id: string;
   title: string;
@@ -27,6 +28,7 @@ interface Post {
   seo_title: string | null;
   seo_description: string | null;
   seo_image: string | null;
+  faq: FaqItem[] | null;
 }
 
 const BlogPost = () => {

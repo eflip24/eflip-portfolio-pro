@@ -21,6 +21,7 @@ const services = [
     icon: Printer,
     title: "PRINT DESIGN",
     desc: "STRIKING PRINT MATERIALS — BUSINESS CARDS, BROCHURES, POSTERS, PACKAGING — DESIGNED TO STAND OUT.",
+    href: "/print-design",
   },
   {
     icon: Sparkles,

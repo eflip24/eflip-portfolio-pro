@@ -21,6 +21,7 @@ import AdminBlogEdit from "./pages/AdminBlogEdit";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 import AI from "./pages/AI";
+import PrintDesign from "./pages/PrintDesign";
 
 const queryClient = new QueryClient();
 

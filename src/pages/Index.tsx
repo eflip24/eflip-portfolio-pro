@@ -10,7 +10,7 @@ import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import useEmblaCarousel from "embla-carousel-react";
 
-const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
+const services = ["WEBSITES", "GAMES", "PRINTING", "EFLIP AI", "BRANDING", "UI/UX"];
 
 const stats = [
   { label: "PROJECTS DELIVERED", value: 500, suffix: "+" },
@@ -114,7 +114,8 @@ const Index = () => {
   return (
     <Layout>
       <SEOHead
-        keywords="design agency Ireland, web design, game development, print design, video production, branding, UI UX"
+        keywords="design agency Ireland, web design, game development, print design, eflip AI, AI automation, branding, UI UX"
+
         jsonLd={[
           {
             "@context": "https://schema.org",

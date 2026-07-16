@@ -17,6 +17,7 @@ const services = [
     icon: Gamepad2,
     title: "GAME DESIGN",
     desc: "IMMERSIVE GAMING EXPERIENCES WITH STUNNING VISUALS AND ENGAGING MECHANICS. MOBILE, WEB, AND CONSOLE.",
+    href: "/game-design",
   },
   {
     icon: Printer,

@@ -23,6 +23,7 @@ import Unsubscribe from "./pages/Unsubscribe";
 import AI from "./pages/AI";
 import PrintDesign from "./pages/PrintDesign";
 import CustomWebDesign from "./pages/CustomWebDesign";
+import GameDesign from "./pages/GameDesign";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const AnimatedRoutes = () => {
         <Route path="/ai" element={<PageTransition><AI /></PageTransition>} />
         <Route path="/print-design" element={<PageTransition><PrintDesign /></PageTransition>} />
         <Route path="/custom-web-design" element={<PageTransition><CustomWebDesign /></PageTransition>} />
+        <Route path="/game-design" element={<PageTransition><GameDesign /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
         <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />

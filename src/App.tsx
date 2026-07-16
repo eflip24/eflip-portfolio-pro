@@ -20,6 +20,7 @@ import AdminProjectEdit from "./pages/AdminProjectEdit";
 import AdminBlogEdit from "./pages/AdminBlogEdit";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
+import AI from "./pages/AI";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const AnimatedRoutes = () => {
         <Route path="/portfolio/:slug" element={<PageTransition><ProjectDetail /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
+        <Route path="/ai" element={<PageTransition><AI /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
         <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />

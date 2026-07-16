@@ -25,7 +25,8 @@ const services = [
   {
     icon: Sparkles,
     title: "eflip AI",
-    desc: "WE HELP LOCAL BUSINESSES ADOPT THE RIGHT AI TOOLS IN A PRACTICAL AND EFFECTIVE WAY. WE IDENTIFY THE BEST TOOLS FOR YOUR BUSINESS, CONNECT THEM WITH YOUR EXISTING SYSTEMS, AND BUILD SIMPLE WORKFLOWS THAT SAVE TIME AND HELP YOU GROW.",
+    desc: "WE HELP LOCAL BUSINESSES ADOPT THE RIGHT AI TOOLS, CONNECT THEM TO YOUR SYSTEMS, AND BUILD TIME-SAVING WORKFLOWS THAT SUPPORT GROWTH.",
+    href: "/ai",
   },
 ];
 
@@ -76,7 +77,7 @@ const Services = () => (
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design", "description": "Responsive, modern websites that convert visitors into customers." } },
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Game Design", "description": "Immersive gaming experiences with stunning visuals and engaging mechanics." } },
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Print Design", "description": "Striking print materials — business cards, brochures, posters, packaging." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "eflip AI", "description": "Practical AI solutions for local businesses — identify the right tools, connect existing systems, and build workflows that save time and fuel growth." } }
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "eflip AI", "description": "We help local businesses adopt the right AI tools, connect them to your systems, and build time-saving workflows that support growth.", "url": "https://eflip.ie/ai" } }
             ]
           }
         },
@@ -107,20 +108,29 @@ const Services = () => (
           {services.map((s, i) => (
             <ScrollReveal key={s.title} delay={i * 0.15}>
               <motion.div
-                className="border border-border p-8 group hover:border-primary transition-colors"
+                className="border border-border p-8 group hover:border-primary transition-colors h-full flex flex-col"
                 whileHover={{ y: -4 }}
               >
                 <s.icon className="w-10 h-10 text-primary mb-6" strokeWidth={1.5} />
                 <h3 className="text-xl font-bold tracking-widest mb-4">{s.title}</h3>
-                <p className="text-muted-foreground text-xs tracking-wider leading-relaxed">
+                <p className="text-muted-foreground text-xs tracking-wider leading-relaxed flex-1">
                   {s.desc}
                 </p>
+                {s.href && (
+                  <Link
+                    to={s.href}
+                    className="mt-6 text-xs tracking-widest text-primary hover:underline"
+                  >
+                    LEARN MORE →
+                  </Link>
+                )}
               </motion.div>
             </ScrollReveal>
           ))}
         </div>
       </div>
     </section>
+
 
     {/* How We Work */}
     <section className="py-24 border-t border-border">

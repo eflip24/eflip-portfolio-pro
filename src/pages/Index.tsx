@@ -13,10 +13,10 @@ import useEmblaCarousel from "embla-carousel-react";
 const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
 
 const stats = [
-  { label: "PROJECTS DELIVERED", value: 50, suffix: "+" },
-  { label: "HAPPY CLIENTS", value: 30, suffix: "+" },
+  { label: "PROJECTS DELIVERED", value: 500, suffix: "+" },
+  { label: "HAPPY CLIENTS", value: 200, suffix: "+" },
   { label: "SERVICES OFFERED", value: 4, suffix: "" },
-  { label: "YEARS EXPERIENCE", value: 8, suffix: "+" },
+  { label: "YEARS EXPERIENCE", value: 25, suffix: "+" },
 ];
 
 const AnimatedNumber = ({ value, suffix }: { value: number; suffix: string }) => {

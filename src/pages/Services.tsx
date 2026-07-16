@@ -11,6 +11,7 @@ const services = [
     icon: Globe,
     title: "WEB DESIGN",
     desc: "RESPONSIVE, MODERN WEBSITES THAT CONVERT VISITORS INTO CUSTOMERS. FROM LANDING PAGES TO FULL-SCALE WEB APPLICATIONS.",
+    href: "/custom-web-design",
   },
   {
     icon: Gamepad2,

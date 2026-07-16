@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 import AI from "./pages/AI";
 import PrintDesign from "./pages/PrintDesign";
+import CustomWebDesign from "./pages/CustomWebDesign";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const AnimatedRoutes = () => {
         <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
         <Route path="/ai" element={<PageTransition><AI /></PageTransition>} />
         <Route path="/print-design" element={<PageTransition><PrintDesign /></PageTransition>} />
+        <Route path="/custom-web-design" element={<PageTransition><CustomWebDesign /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
         <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />

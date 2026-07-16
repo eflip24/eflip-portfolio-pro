@@ -236,8 +236,10 @@ const ProjectDetail = () => {
                   >
                     <img
                       src={project.image_url}
-                      alt={project.client_name}
-                      loading="lazy"
+                      alt={`${project.client_name} — ${project.category} project by eFlip`}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   </div>

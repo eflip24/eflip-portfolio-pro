@@ -10,6 +10,21 @@ import { Badge } from "@/components/ui/badge";
 import ProjectDetailSkeleton from "@/components/ProjectDetailSkeleton";
 import DOMPurify from "dompurify";
 
+// If content contains HTML block tags, sanitize as-is. Otherwise, treat as
+// plain text and convert paragraphs (split on blank lines) into <p> blocks
+// so the `prose` plugin renders proper spacing between paragraphs.
+const formatContent = (raw: string): string => {
+  if (!raw) return "";
+  const hasBlockHtml = /<(p|h[1-6]|ul|ol|li|blockquote|div|br)\b/i.test(raw);
+  const html = hasBlockHtml
+    ? raw
+    : raw
+        .split(/\n\s*\n+/)
+        .map((para) => `<p>${para.trim().replace(/\n/g, "<br />")}</p>`)
+        .join("");
+  return DOMPurify.sanitize(html);
+};
+
 interface Project {
   id: string;
   slug: string;

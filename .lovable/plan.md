@@ -1,53 +1,65 @@
-## Changes
+## New page: `/print-design`
 
-### 1. Update Services page (`src/pages/Services.tsx`)
-Replace the eflip AI description on the services card with the shorter version:
-> "We help local businesses adopt the right AI tools, connect them to your systems, and build time-saving workflows that support growth."
+Mirror the structure, styling, and Framer Motion patterns already used on `src/pages/AI.tsx` and `src/pages/Services.tsx` (dark theme, orange accent, uppercase display type, ScrollReveal, numbered process steps, card grids, final CTA). No new design language.
 
-Also update the matching `OfferCatalog` JSON-LD description to match.
+### 1. Create `src/pages/PrintDesign.tsx`
 
-### 2. Create new page `src/pages/AI.tsx` at route `/ai`
-Register the route in `src/App.tsx` (above the `*` NotFound catch-all).
-
-Design: matches the site's dark theme, orange accent, uppercase display type, and Framer Motion reveals used elsewhere (mirroring Services.tsx patterns — hero, numbered process steps, card grids, final CTA).
-
-Sections (in order):
+Sections in order:
 
 1. **Hero**
-   - H1: "eflip AI"
-   - Subheadline: "Practical AI solutions for local businesses"
-   - Paragraph: help local businesses in Ireland find the right AI tools, connect them to existing systems, save time, improve service, and grow — without the overwhelm.
-   - Primary CTA → `/contact` ("Book a Free Discovery Call")
-   - Secondary CTA → `/services` ("View All Services")
+   - H1: "PRINT DESIGN"
+   - Subheadline: "Professional graphic design, ready for print"
+   - Paragraph: high-quality print-ready files for flyers, business cards, banners, packaging and more — take them to any local printer with confidence.
+   - Primary CTA → `/contact` ("GET A QUOTE")
+   - Secondary CTA → `/portfolio` ("VIEW OUR WORK")
 
-2. **What is eflip AI?** — short explainer paragraph block.
+2. **What We Offer** — short explainer block (design + technical prep, files delivered print-ready: bleed, CMYK, 300 DPI, correct formats).
 
-3. **How Local Businesses Are Using AI in 2026** — intro + 5-bullet list of common wins.
+3. **Services We Provide** — card grid of 8 items:
+   - Business Cards
+   - Flyers & Leaflets
+   - Brochures & Booklets
+   - Posters & Banners
+   - Product Packaging & Labels
+   - Menus & Signage
+   - Canva to Print-Ready Conversion
+   - Custom Print Projects
 
-4. **Real Examples by Industry** — three grouped cards:
-   - Estate Agents (5 bullets)
-   - Solicitors & Law Firms (5 bullets)
-   - Other Local Businesses (cafes/clinics/trades/accountants/retail — 5 bullets)
+4. **Canva to Print-Ready Files** — highlighted section with 5-bullet list (bleed & margins, CMYK, 300 DPI, fonts/spacing, PDF format).
 
-5. **What We Do For You** — 6 items (Discovery & Assessment, Tool Selection, Integration, Workflow Design, Setup & Training, Ongoing Support) as a card grid with title + "how it helps you" line.
+5. **Our Design Process** — 5 numbered steps styled like the PROCESS section on `/services` and `/ai`:
+   1. Brief & Requirements
+   2. Design Concepts
+   3. Revisions
+   4. Print-Ready Preparation
+   5. File Delivery
 
-6. **Key Benefits** — 6-item card/list grid (save time, faster responses 24/7, better lead conversion, less admin, scale without hiring, clear recommendations).
+6. **Why Choose eflip for Print Design?** — 6-item benefits grid.
 
-7. **How It Works** — 5 numbered steps (Discovery Call → Custom Recommendation → Implementation → Training & Handover → Ongoing Optimisation), styled like the existing PROCESS section on `/services`.
+7. **Who This Is For** — short line naming small businesses, local shops/cafes/restaurants, tradespeople, event organisers, anyone needing pro print materials.
 
-8. **Who It's For** — short line naming Ireland local businesses (cafes, clinics, trades, retail, service businesses, estate agents, solicitors, accountants).
+8. **Common Print Projects We Handle** — responsive table (Project Type / Common Uses / Turnaround) with the 6 rows provided (Business Cards 2–4d, Flyers 3–5d, Banners & Posters 3–5d, Product Packaging 5–7d, Brochures & Booklets 5–7d, Canva Conversion 1–3d).
 
-9. **Final CTA** — "Ready to bring AI into your business?" + primary "Book a Free Discovery Call" → `/contact`.
+9. **Final CTA** — "Ready to get your print materials designed and print-ready?" + primary "REQUEST A QUOTE" → `/contact`, secondary "BOOK A FREE CONSULTATION" → `/contact`.
 
-### 3. SEO
-- `SEOHead` with title "eflip AI — Practical AI for Local Businesses in Ireland", description matching the hero paragraph, and canonical `https://eflip.ie/ai`.
-- Add a `Service` JSON-LD block for eflip AI.
-- Sitemap: `/ai` will be added on the next static-page pass — `scripts/generate-sitemap.ts` currently emits a fixed static list, so I'll add `/ai` to that list too so it appears in `public/sitemap.xml` on next build.
+### 2. SEO
+- `SEOHead` with title "Print Design Ireland — Print-Ready Graphic Design", description matching hero, canonical `https://eflip.ie/print-design`.
+- `Service` + `BreadcrumbList` JSON-LD blocks (matching pattern used on `AI.tsx` / `Services.tsx`).
 
-### Suggested improvements (not implementing unless you say yes)
-- Add a small "Featured in eflip AI" teaser card to the Services page card so it links through to `/ai` for more detail.
-- Add 2–3 short client-style testimonials or a "Recent AI project" block once you have one — social proof lifts conversion on service pages.
-- Add an FAQ section (with `FAQPage` JSON-LD) covering pricing, timelines, data privacy, and what tools you commonly recommend — good for SEO and pre-empts sales objections.
-- Offer a lightweight "AI readiness" lead magnet (short form / checklist) instead of only a discovery call CTA, to capture visitors not ready to book.
+### 3. Route registration
+- Add `import PrintDesign from "./pages/PrintDesign"` and `<Route path="/print-design" element={<PageTransition><PrintDesign /></PageTransition>} />` in `src/App.tsx`, above the `*` NotFound route.
 
-Tell me if you want any of those folded into this build or left for later.
+### 4. Link from Services page
+- In `src/pages/Services.tsx`, add `href: "/print-design"` to the PRINT DESIGN service card entry so the existing "LEARN MORE →" link renders (same pattern as eflip AI card). No other Services changes.
+
+### 5. Sitemap
+- Add `{ path: "/print-design", changefreq: "monthly", priority: "0.8" }` to `staticEntries` in `scripts/generate-sitemap.ts` so it lands in `public/sitemap.xml` on next dev/build.
+
+### Files touched
+- Create: `src/pages/PrintDesign.tsx`
+- Edit: `src/App.tsx`, `src/pages/Services.tsx`, `scripts/generate-sitemap.ts`
+
+### Not included (say the word to add)
+- FAQ block with `FAQPage` JSON-LD (pricing, timelines, file formats accepted).
+- Pricing tiers or starting-from prices on the projects table.
+- Sample downloadable "print-ready checklist" lead magnet.

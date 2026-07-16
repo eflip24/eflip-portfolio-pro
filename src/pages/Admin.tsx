@@ -12,7 +12,7 @@ import AdminBlog from "@/components/admin/AdminBlog";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
 import SEOHead from "@/components/SEOHead";
 
-const CATEGORIES = ["Web", "Games", "Print", "Video"];
+const CATEGORIES = ["Web", "Games", "Print", "eflip AI"];
 
 interface Project {
   id: string;

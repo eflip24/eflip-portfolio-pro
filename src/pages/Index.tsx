@@ -10,7 +10,7 @@ import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import useEmblaCarousel from "embla-carousel-react";
 
-const services = ["WEBSITES", "GAMES", "PRINTING", "VIDEOS", "BRANDING", "UI/UX"];
+const services = ["WEBSITES", "GAMES", "PRINTING", "EFLIP AI", "BRANDING", "UI/UX"];
 
 const stats = [
   { label: "PROJECTS DELIVERED", value: 500, suffix: "+" },
@@ -114,7 +114,8 @@ const Index = () => {
   return (
     <Layout>
       <SEOHead
-        keywords="design agency Ireland, web design, game development, print design, video production, branding, UI UX"
+        keywords="design agency Ireland, web design, game development, print design, eflip AI, AI automation, branding, UI UX"
+
         jsonLd={[
           {
             "@context": "https://schema.org",
@@ -122,7 +123,7 @@ const Index = () => {
             "name": "eFlip",
             "url": "https://eflip.ie",
             "logo": "https://eflip.ie/logo.png",
-            "description": "eFlip is an Irish design agency specialising in web design, game development, print media, and video production.",
+            "description": "eFlip is an Irish design agency specialising in web design, game development, print media, and eflip AI — practical AI solutions for local businesses.",
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "customer service",
@@ -321,8 +322,8 @@ const Index = () => {
             </h2>
             <p className="text-muted-foreground leading-relaxed text-sm tracking-wider">
               FROM PIXEL-PERFECT WEBSITES TO IMMERSIVE GAME EXPERIENCES,
-              STUNNING PRINT MEDIA TO CINEMATIC VIDEOS — WE BRING YOUR
-              VISION TO LIFE WITH BOLD, UNCOMPROMISING DESIGN.
+              STUNNING PRINT MEDIA TO PRACTICAL EFLIP AI SOLUTIONS — WE BRING
+              YOUR VISION TO LIFE WITH BOLD, UNCOMPROMISING DESIGN.
             </p>
           </motion.div>
         </div>

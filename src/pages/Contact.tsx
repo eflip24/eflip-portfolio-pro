@@ -28,7 +28,7 @@ const serviceOptions = [
   { value: "web", label: "WEB DESIGN" },
   { value: "games", label: "GAME DESIGN" },
   { value: "print", label: "PRINT DESIGN" },
-  { value: "video", label: "VIDEO PRODUCTION" },
+  { value: "ai", label: "EFLIP AI" },
   { value: "other", label: "OTHER" },
 ];
 
@@ -82,7 +82,7 @@ const Contact = () => {
     <Layout>
       <SEOHead
         title="Contact Us — Get a Free Quote"
-        description="Ready to start your next project? Contact eFlip for a free consultation. We specialise in web design, games, print, and video production in Ireland."
+        description="Ready to start your next project? Contact eFlip for a free consultation. We specialise in web design, games, print, and eflip AI solutions in Ireland."
         keywords="contact eFlip, free quote, web design quote, design agency contact, Ireland"
         jsonLd={[
           {

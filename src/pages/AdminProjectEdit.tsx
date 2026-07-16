@@ -287,7 +287,7 @@ const AdminProjectEdit = () => {
                   <SelectItem value="web">WEB</SelectItem>
                   <SelectItem value="games">GAMES</SelectItem>
                   <SelectItem value="print">PRINT</SelectItem>
-                  <SelectItem value="video">VIDEO</SelectItem>
+                  <SelectItem value="eflip ai">EFLIP AI</SelectItem>
                 </SelectContent>
               </Select>
               <Input placeholder="PROJECT URL (OPTIONAL)" value={form.project_url} onChange={e => setForm({ ...form, project_url: e.target.value })} className="bg-secondary border-border text-xs tracking-wider" />

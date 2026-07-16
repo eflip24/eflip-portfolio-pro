@@ -2,109 +2,109 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://eflip.ie/</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://eflip.ie/portfolio</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://eflip.ie/services</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://eflip.ie/about</loc>
-    <lastmod>2026-03-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://eflip.ie/blog</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://eflip.ie/about</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://eflip.ie/contact</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eflip.ie/portfolio/website-redesign-for-avrils-language-centre</loc>
+    <lastmod>2026-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eflip.ie/portfolio/website-design-for-ellis-construction</loc>
+    <lastmod>2026-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eflip.ie/portfolio/website-redesign-for-pulse-medical</loc>
+    <lastmod>2026-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eflip.ie/portfolio/ecommerce-website-for-printhouseie</loc>
+    <lastmod>2026-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eflip.ie/portfolio/website-redesign-for-greenhill-fruit-farm</loc>
+    <lastmod>2026-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eflip.ie/portfolio/website-development-for-emerald-cat-hotel</loc>
+    <lastmod>2026-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://eflip.ie/portfolio/website-design-for-worksafe-ireland</loc>
+    <lastmod>2026-03-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://eflip.ie/portfolio/arc-raiders-trading-marketplace</loc>
-    <lastmod>2025-07-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://eflip.ie/portfolio/stormrite-mmorpg-website</loc>
-    <lastmod>2025-07-05</lastmod>
+    <loc>https://eflip.ie/portfolio/website-design-for-author-jen-bray</loc>
+    <lastmod>2026-03-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://eflip.ie/portfolio/smilegate-crossfire-esports</loc>
-    <lastmod>2025-07-05</lastmod>
+    <loc>https://eflip.ie/portfolio/tri-fold-brochure-design-for-active-tribe</loc>
+    <lastmod>2026-03-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://eflip.ie/portfolio/halo-infinite-esports-landing</loc>
-    <lastmod>2025-07-05</lastmod>
+    <loc>https://eflip.ie/portfolio/website-design-for-pristine-auto-shine</loc>
+    <lastmod>2026-03-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://eflip.ie/portfolio/arrowhead-studios-helldivers-2</loc>
-    <lastmod>2025-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eflip.ie/portfolio/embark-studios-the-finals</loc>
-    <lastmod>2025-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eflip.ie/portfolio/mw3-ranked-play-portal</loc>
-    <lastmod>2025-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eflip.ie/portfolio/ea-sports-fc-25-tournament-hub</loc>
-    <lastmod>2025-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eflip.ie/portfolio/riot-games-valorant-champions</loc>
-    <lastmod>2025-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eflip.ie/portfolio/bungie-destiny-2-lightfall-launch</loc>
-    <lastmod>2025-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eflip.ie/portfolio/epic-games-fortnite-world-cup</loc>
-    <lastmod>2025-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://eflip.ie/portfolio/ubisoft-rainbow-six-siege-invitational</loc>
-    <lastmod>2025-07-05</lastmod>
+    <loc>https://eflip.ie/portfolio/website-design-for-sundara-self-care</loc>
+    <lastmod>2026-03-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

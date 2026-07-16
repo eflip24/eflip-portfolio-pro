@@ -1,41 +1,58 @@
+# SEO Improvement Plan — eflip.ie
 
+The foundational SEO (sitemap, robots, per-page meta, JSON-LD, Cloudflare crawler proxy, edge function for OG tags) is already in place. This plan focuses on the next layer: **content depth, on-page optimisation, technical polish, and off-page authority**.
 
-# Fix: Portfolio Pages Need Server-Rendered Meta Tags
+## 1. Content & Keyword Strategy
 
-## The Problem
+**Problem:** Current copy is brand-focused ("bold", "extraordinary") but light on the actual terms clients search for. Google needs topical signals.
 
-You're right — the HTML source for `/portfolio/arc-raiders-trading-marketplace` shows **generic** meta tags (the homepage defaults), not the project-specific title and description. Here's why:
+- **Rewrite Services page** around search-intent keywords: "web design Ireland", "game UI design", "esports website design", "print design Dublin", "video production Ireland". One dedicated H2 section per service with 150-250 words of substantive copy.
+- **Add location signals** — mention Ireland/Dublin naturally in H1/H2 on Home, About, Services, Contact. Add a `LocalBusiness` JSON-LD block with address (once you're happy to publish it) on the Contact page.
+- **Publish 4–6 pillar blog posts** targeting long-tail terms competitors rank for (e.g. "how to design an esports tournament landing page", "game trading marketplace UX case study"). Each 1000-1500 words, linked from at least 2 portfolio pages.
 
-This is a **Single Page Application (SPA)**. Every URL serves the exact same `index.html` file. React Helmet updates the `<title>` and meta tags *after* JavaScript runs in the browser — that's why you see the correct title in your browser tab. But the raw HTML source never changes.
+## 2. Portfolio Page Depth
 
-**Google:** Actually handles this fine. Googlebot runs JavaScript (headless Chrome) and will see the Helmet-injected meta tags. You can verify this in Google Search Console → URL Inspection → "View Tested Page" for any portfolio URL.
+**Problem:** Portfolio pages are visually strong but thin on indexable text. Google can't rank a page on 3 sentences.
 
-**Social media crawlers (Facebook, Twitter, LinkedIn):** These do NOT run JavaScript. They only read the raw HTML, so they'll always show the generic eFlip title/description when someone shares a portfolio link.
+- Ensure every project has: 250+ word description, at least 3 `sections` (challenge / approach / result), and a testimonial.
+- Add an FAQ block per project (2-3 Q&As) and emit `FAQPage` JSON-LD.
+- Add `ImageObject` structured data on the hero image with proper `caption` and `contentUrl`.
+- Add internal "Related projects" links (already in sidebar) — good; ensure anchor text uses the client name, not "view project".
 
-## Solution: Cloudflare Worker as Crawler Proxy
+## 3. On-Page Technical
 
-Since eflip.ie uses a custom domain (likely through Cloudflare or similar DNS provider), we can route crawler requests through the existing `og-meta` edge function. This requires a small Cloudflare Worker that:
+- **Add `alt` text audit** — many portfolio images use the client name only; expand to describe the image ("Arc Raiders trading marketplace landing page mockup on desktop").
+- **Heading hierarchy** — confirm one H1 per page and logical H2/H3 order (Portfolio detail currently uses the title as a large div, not always an H1).
+- **Core Web Vitals** — largest hero images should be `loading="eager"` + `fetchpriority="high"`; everything else already lazy. Preload the hero webfont if any custom font is used.
+- **Image format** — serve portfolio hero images as WebP with width-descriptor `srcset` for mobile.
+- **Canonical review** — spot-check that `/portfolio/[slug]` self-references and never falls back to `/`.
 
-1. Checks if the request comes from a known crawler (Googlebot, facebookexternalhit, Twitterbot, LinkedInBot)
-2. If crawler → fetches the pre-rendered HTML from the `og-meta` edge function (which already returns correct per-page meta tags)
-3. If regular user → serves the normal SPA as usual
+## 4. Sitemap Automation
 
-### What I'll Build
+**Problem:** `public/sitemap.xml` is hand-maintained. It'll go stale the moment you add a project.
 
-**1. Cloudflare Worker script** — I'll generate the Worker code you can deploy at `eflip.ie`. It intercepts requests, checks User-Agent, and proxies crawlers to the og-meta function.
+- Add a build-time script (`scripts/generate-sitemap.ts`) that queries the DB and writes `public/sitemap.xml` before `vite build`. Wire it into the `build` npm script.
+- Include blog posts once they exist.
+- Update `<lastmod>` per URL from `updated_at`.
 
-**2. Deployment instructions** — Step-by-step guide for adding the Worker in your Cloudflare dashboard (or whichever DNS/CDN you use).
+## 5. Off-Page / Authority
 
-No code changes are needed in the Lovable project itself — the `og-meta` edge function already returns correct meta tags for every portfolio and blog page. The missing piece is the routing layer.
+- **Backlinks** — reach out to 5–10 industry blogs (esports design roundups, Dribbble/Behance features, Ireland design directories) with your best 2 case studies.
+- **Business listings** — Google Business Profile, Clutch, DesignRush, LinkedIn Company Page. Consistent NAP (Name/Address/Phone).
+- **Social sameAs** — the current Organization JSON-LD lists `instagram.com/eflip`, `linkedin.com/company/eflip`, `x.com/eflip`. Confirm these accounts actually exist at those handles or remove/replace — Google penalises broken sameAs.
 
-### Files to Create
-- `cloudflare-worker.js` — Worker script (added to project root for reference; deployed separately in Cloudflare)
+## 6. Analytics & Monitoring
 
-### Technical Detail
-The Worker will look like:
-```text
-Request → Cloudflare Worker
-  ├─ Crawler? → fetch og-meta edge function → return pre-rendered HTML
-  └─ User?   → pass through to normal SPA
-```
+- **Google Search Console** — submit `https://eflip.ie/sitemap.xml`, monitor Coverage weekly for 4 weeks, fix any "Discovered - not indexed" pages.
+- **Add Bing Webmaster Tools** — free, easy, sends real traffic.
+- **Track keyword positions monthly** for your top 20 target terms (I can pull these via the Semrush tool on demand).
 
+## What I'd build first (recommended order)
+
+1. Services page rewrite with keyword-targeted H2 sections *(biggest ranking lift for the effort)*
+2. Portfolio description expansion + FAQ blocks *(unlocks long-tail traffic)*
+3. Build-time sitemap generation *(fixes the staleness problem permanently)*
+4. Image alt-text pass + hero `fetchpriority` *(quick Core Web Vitals win)*
+5. First 2 pillar blog posts
+
+Approve and I'll start with step 1, or tell me which item to tackle first.

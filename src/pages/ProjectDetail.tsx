@@ -236,8 +236,10 @@ const ProjectDetail = () => {
                   >
                     <img
                       src={project.image_url}
-                      alt={project.client_name}
-                      loading="lazy"
+                      alt={`${project.client_name} — ${project.category} project by eFlip`}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -257,7 +259,7 @@ const ProjectDetail = () => {
                         className="aspect-square overflow-hidden border border-border cursor-pointer hover:border-primary/50 transition-colors"
                         onClick={() => setLightbox(url)}
                       >
-                        <img src={url} alt="" loading="lazy" className="w-full h-full object-cover" />
+                        <img src={url} alt={`${project.client_name} project gallery image ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
                       </div>
                     ))}
                   </div>

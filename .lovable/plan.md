@@ -1,44 +1,44 @@
-## 1. Fix blog content typography
+## Add LegallySpoken to the portfolio
 
-- Install `@tailwindcss/typography` and register it in `tailwind.config.ts`.
-- In `src/pages/BlogPost.tsx`, replace the current `prose prose-invert prose-sm` wrapper with a properly configured `prose prose-invert` block using the design tokens (orange accent for links, mono headings matching the brand, tighter list/paragraph spacing).
-- Style overrides via `prose-headings:`, `prose-h2:`, `prose-h3:`, `prose-p:`, `prose-a:`, `prose-strong:`, `prose-ul:`, `prose-blockquote:` utilities so H2/H3/paragraphs/links visually separate. External links get an underline + hover state; internal links (starting with `/`) get the orange accent.
-- Add `id` attributes to each `<h2>` at render time (parse the sanitized HTML, slugify heading text) so the TOC can anchor to them, and add `scroll-mt-24` so anchor jumps clear the sticky navbar.
+Create a new entry in the `projects` table (via `supabase--insert`) and upload the provided screenshot as the hero image.
 
-## 2. New 3-column layout on desktop
+### Project metadata
 
-Restructure `BlogPost.tsx` from a single centered column to a 12-column grid on `lg:` screens:
+- **Client name:** LegallySpoken
+- **Slug:** `legallyspoken`
+- **Category:** WEB (with a secondary mention of eflip AI in the description, since the site is built around AI-assisted legal tooling)
+- **Project URL:** https://legallyspoken.com/
+- **Published:** true
+- **Sort order:** 0 (top of grid)
+- **Hero image:** the uploaded `LegallySpoken.jpg`, uploaded to Supabase Storage and referenced by `image_url`
 
-```
-[  TOC (3)  ] [ Article (6) ] [ Sidebar (3) ]
-```
+### Short description (portfolio card)
 
-Below `lg`, everything stacks (TOC becomes a collapsible summary at the top, sidebar drops to the bottom) so mobile stays clean.
+> A next-generation legal platform giving people across the US and Europe instant, free access to legal clarity — 100+ tools, calculators, guides, forms, and a growing directory of lawyers in every state and country.
 
-### Left column — sticky Table of Contents
-- New `BlogTOC.tsx` component.
-- Extracts H2 headings from `post.content` (after sanitisation) with regex, slugifies them, renders a vertical list.
-- `sticky top-24`, thin left border, active-section highlighting via `IntersectionObserver`.
-- Hidden on `<lg`; on mobile becomes a `<details>` "On this page" toggle just under the title.
+### Long description / "what we did" (DETAILS section on the project page)
 
-### Right column — sticky related content
-- New `BlogSidebar.tsx` component with two blocks, both `sticky top-24`:
-  1. **Recent Posts** — pulls 4 latest `blog_posts` (`published=true`, excluding current slug) ordered by `created_at desc`. Small card: title + date, links to `/blog/[slug]`.
-  2. **Recent Projects** — pulls 4 latest `projects` (visible) ordered by `created_at desc`. Thumbnail + title, links to `/portfolio/[slug]`.
-- Same brand styling as the rest of the site (mono, tracking-widest labels, orange hover).
+Written as short paragraphs so the existing `formatContent` renderer in `ProjectDetail.tsx` picks them up cleanly. Covers:
 
-## 3. Tighten the AI generator so future drafts render cleanly
+1. **The brief** — build the most useful, trustworthy legal resource on the internet: free forever, no signup, genuinely helpful for real people (not just lawyers).
+2. **What we designed & built**
+   - Custom, high-contrast dark UI with a gold accent system tuned for long-form legal reading.
+   - 100+ free legal tools (contract analysers, risk checkers, deadline calculators, document generators).
+   - 7 in-depth legal guides and a growing library of downloadable forms.
+   - Lawyer directory covering all 50 US states and expanding across Europe.
+   - 6,000+ indexed pages architected for search — schema.org, clean slugs, sitemap automation, AI-search readiness.
+   - Multi-language support (English + expanding) and a light/dark theme.
+   - Admin + user dashboards for saved tools, generated documents, and history.
+3. **eflip AI layer** — the tools that read contracts, flag risks, calculate deadlines and draft documents are powered by our own AI workflows wired into the site.
+4. **Outcome** — a platform positioned to become the go-to free legal resource across the US and Europe, with content, tools, and lawyer coverage expanding every week.
 
-Small update to `supabase/functions/generate-blog-draft/index.ts` system prompt:
-- Require the first paragraph to be a standalone `<p>` intro (not merged with the first H2).
-- Require external links to include descriptive anchor text and open in a new tab (already stated; reinforce).
-- Explicitly forbid bare URLs and require at least one `<ul>` or `<ol>` list somewhere in the body for scannability.
+### Files / systems touched
 
-No schema, cron, or edge-function-behavior changes beyond the prompt tweak. Existing drafts already in the DB will immediately look correct because the fix is presentational.
+- `supabase--storage_upload` — upload `LegallySpoken.jpg` to the existing project image bucket.
+- `supabase--insert` — insert one row into `public.projects` with the fields above.
+- Sitemap will pick the new `/portfolio/legallyspoken` URL up automatically on the next generate-sitemap run.
+- No React/TS code changes required — the portfolio grid and detail page already render from the database.
 
-## Technical details
+### Open question
 
-- Files touched: `tailwind.config.ts`, `package.json` (add `@tailwindcss/typography`), `src/pages/BlogPost.tsx`, `src/components/blog/BlogTOC.tsx` (new), `src/components/blog/BlogSidebar.tsx` (new), `supabase/functions/generate-blog-draft/index.ts` (prompt only).
-- TOC extraction runs client-side on the sanitized HTML string before it's injected via `dangerouslySetInnerHTML`, so no double-parse cost.
-- Sidebar queries run in parallel with the post fetch (`Promise.all`) to keep TTI unchanged.
-- All new styling uses existing semantic tokens (`--primary`, `--muted-foreground`, `--border`) — no hardcoded colors.
+Category — should this show under **WEB** (default, since it's primarily a web build) or under **EFLIP AI** (because the tools are AI-powered)? I'll default to **WEB** unless you say otherwise.

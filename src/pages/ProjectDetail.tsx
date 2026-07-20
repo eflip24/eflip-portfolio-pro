@@ -282,14 +282,20 @@ const ProjectDetail = () => {
                   </div>
                 )}
 
-                {/* Description */}
-                <p className="text-muted-foreground/80 leading-loose tracking-wider text-base md:text-lg mb-8">
-                  {project.description}
-                </p>
+                {/* The Brief — always visible, prose-formatted */}
+                <section aria-labelledby="the-brief" className="mb-10">
+                  <h2 id="the-brief" className="text-xs tracking-[0.3em] text-primary mb-4">
+                    THE BRIEF
+                  </h2>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: formatContent(project.description) }}
+                    className="prose prose-invert prose-lg max-w-none text-muted-foreground/90 leading-relaxed prose-p:my-4 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground"
+                  />
+                </section>
 
                 {/* Gallery images */}
                 {galleryImages.length > 0 && (
-                  <div className="grid grid-cols-2 gap-3 md:gap-4 mb-8">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4 mb-10">
                     {galleryImages.map((url, i) => (
                       <div
                         key={i}
@@ -302,68 +308,55 @@ const ProjectDetail = () => {
                   </div>
                 )}
 
-                {/* Details accordion */}
+                {/* Case-study sections — always visible, H2 headings, prose-styled */}
                 {textSections.length > 0 && (
-                  <div className="border border-border mb-8">
-                    <button
-                      onClick={() => setDetailsOpen(!detailsOpen)}
-                      className="w-full flex items-center justify-between p-4 text-xs tracking-widest text-foreground hover:text-primary transition-colors"
-                    >
-                      <span>&gt; DETAILS</span>
-                      <ChevronDown
-                        size={16}
-                        className={`transition-transform duration-200 ${detailsOpen ? "rotate-180" : ""}`}
-                      />
-                    </button>
-                    {detailsOpen && (
-                      <div className="px-4 pb-6 space-y-8 border-t border-border pt-4">
-                        {textSections.map((section) => (
-                          <div key={section.id}>
-                            {section.title && (
-                              <h3 className="text-sm font-bold tracking-widest mb-3 text-foreground">
-                                {section.title.toUpperCase()}
-                              </h3>
+                  <div className="space-y-10 mb-10">
+                    {textSections.map((section) => (
+                      <section key={section.id}>
+                        {section.title && (
+                          <h2 className="text-xs tracking-[0.3em] text-primary mb-4">
+                            {section.title.toUpperCase()}
+                          </h2>
+                        )}
+                        {section.layout === "two-column" ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {section.content_left && (
+                              <div
+                                dangerouslySetInnerHTML={{ __html: formatContent(section.content_left) }}
+                                className="prose prose-invert prose-base max-w-none text-muted-foreground/90 leading-relaxed prose-headings:text-foreground prose-headings:tracking-wide prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:my-1"
+                              />
                             )}
-                            {section.layout === "two-column" ? (
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {section.content_left && (
-                                  <div
-                                    dangerouslySetInnerHTML={{ __html: formatContent(section.content_left) }}
-                                    className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
-                                  />
-                                )}
-                                {section.content_right && (
-                                  <div
-                                    dangerouslySetInnerHTML={{ __html: formatContent(section.content_right) }}
-                                    className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
-                                  />
-                                )}
-                              </div>
-                            ) : section.layout === "code-showcase" ? (
-                              section.content_left && (
-                                <div className="bg-secondary border border-border p-4 overflow-hidden">
-                                  <iframe
-                                    srcDoc={`<!DOCTYPE html><html><head><style>body{margin:0;background:#1a1a2e;color:#e0e0e0;font-family:monospace;padding:16px;}</style></head><body>${DOMPurify.sanitize(section.content_left)}</body></html>`}
-                                    className="w-full min-h-[200px] border-0"
-                                    sandbox="allow-scripts"
-                                    title="Code showcase"
-                                  />
-                                </div>
-                              )
-                            ) : (
-                              section.content_left && (
-                                <div
-                                  dangerouslySetInnerHTML={{ __html: formatContent(section.content_left) }}
-                                  className="prose prose-invert prose-base max-w-none text-muted-foreground/80 tracking-wider leading-loose"
-                                />
-                              )
+                            {section.content_right && (
+                              <div
+                                dangerouslySetInnerHTML={{ __html: formatContent(section.content_right) }}
+                                className="prose prose-invert prose-base max-w-none text-muted-foreground/90 leading-relaxed prose-headings:text-foreground prose-headings:tracking-wide prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:my-1"
+                              />
                             )}
                           </div>
-                        ))}
-                      </div>
-                    )}
+                        ) : section.layout === "code-showcase" ? (
+                          section.content_left && (
+                            <div className="bg-secondary border border-border p-4 overflow-hidden">
+                              <iframe
+                                srcDoc={`<!DOCTYPE html><html><head><style>body{margin:0;background:#1a1a2e;color:#e0e0e0;font-family:monospace;padding:16px;}</style></head><body>${DOMPurify.sanitize(section.content_left)}</body></html>`}
+                                className="w-full min-h-[200px] border-0"
+                                sandbox="allow-scripts"
+                                title="Code showcase"
+                              />
+                            </div>
+                          )
+                        ) : (
+                          section.content_left && (
+                            <div
+                              dangerouslySetInnerHTML={{ __html: formatContent(section.content_left) }}
+                              className="prose prose-invert prose-base md:prose-lg max-w-none text-muted-foreground/90 leading-relaxed prose-headings:text-foreground prose-headings:tracking-wide prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:my-1"
+                            />
+                          )
+                        )}
+                      </section>
+                    ))}
                   </div>
                 )}
+
 
                 {/* Testimonial */}
                 {project.testimonial && (

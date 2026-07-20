@@ -83,7 +83,7 @@ const ProjectDetail = () => {
   const [prevNext, setPrevNext] = useState<{ prev: string | null; next: string | null }>({ prev: null, next: null });
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState<string | null>(null);
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  
 
   useEffect(() => {
     const fetchData = async () => {

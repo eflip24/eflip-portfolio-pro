@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ExternalLink, Quote, ChevronDown } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, Quote } from "lucide-react";
 import Layout from "@/components/Layout";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,6 +9,27 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ProjectDetailSkeleton from "@/components/ProjectDetailSkeleton";
 import DOMPurify from "dompurify";
+
+// One-time DOMPurify hook: force external <a> to open in a new tab with
+// rel="noopener" while stripping nofollow/ugc/sponsored so outbound links
+// are dofollow for SEO. Internal/relative links are left alone.
+if (typeof window !== "undefined" && !(DOMPurify as any).__eflipHooked) {
+  DOMPurify.addHook("afterSanitizeAttributes", (node) => {
+    if (node.tagName === "A") {
+      const href = node.getAttribute("href") || "";
+      const isExternal = /^https?:\/\//i.test(href);
+      if (isExternal) {
+        node.setAttribute("target", "_blank");
+        const rel = (node.getAttribute("rel") || "")
+          .split(/\s+/)
+          .filter((t) => t && !/^(nofollow|ugc|sponsored)$/i.test(t));
+        if (!rel.includes("noopener")) rel.push("noopener");
+        node.setAttribute("rel", rel.join(" "));
+      }
+    }
+  });
+  (DOMPurify as any).__eflipHooked = true;
+}
 
 // If content contains HTML block tags, sanitize as-is. Otherwise, treat as
 // plain text and convert paragraphs (split on blank lines) into <p> blocks
@@ -24,6 +45,7 @@ const formatContent = (raw: string): string => {
         .join("");
   return DOMPurify.sanitize(html);
 };
+
 
 interface Project {
   id: string;

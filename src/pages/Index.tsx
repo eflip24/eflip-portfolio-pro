@@ -1,65 +1,15 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Quote } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
+import AnimatedLogo from "@/components/AnimatedLogo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import useEmblaCarousel from "embla-carousel-react";
-
-const services = ["WEBSITES", "GAMES", "PRINTING", "EFLIP AI", "BRANDING", "UI/UX"];
-
-const stats = [
-  { label: "PROJECTS DELIVERED", value: 500, suffix: "+" },
-  { label: "HAPPY CLIENTS", value: 200, suffix: "+" },
-  { label: "SERVICES OFFERED", value: 4, suffix: "" },
-  { label: "YEARS EXPERIENCE", value: 25, suffix: "+" },
-];
-
-const AnimatedNumber = ({ value, suffix }: { value: number; suffix: string }) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const duration = 1500;
-    const step = Math.ceil(value / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= value) {
-        setCount(value);
-        clearInterval(timer);
-      } else {
-        setCount(start);
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, value]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
-};
-
-const StatsCounter = () => (
-  <section className="py-20 border-y border-border">
-    <div className="container mx-auto px-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        {stats.map((stat) => (
-          <div key={stat.label}>
-            <p className="text-4xl md:text-5xl font-bold text-primary tracking-widest mb-2">
-              <AnimatedNumber value={stat.value} suffix={stat.suffix} />
-            </p>
-            <p className="text-[10px] tracking-widest text-muted-foreground">{stat.label}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
 
 interface Project {
   id: string;
@@ -76,46 +26,63 @@ interface Testimonial {
   testimonial_author: string | null;
 }
 
+const CREDENTIALS = [
+  "25+ YEARS",
+  "500+ PROJECTS",
+  "200+ CLIENTS",
+  "BASED IN IRELAND",
+];
+
 const Index = () => {
   const [featured, setFeatured] = useState<Project[]>([]);
+  const [logos, setLogos] = useState<Project[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
   useEffect(() => {
     const fetchData = async () => {
-      const [{ data: featuredData }, { data: testimonialsData }] = await Promise.all([
-        supabase
-          .from("projects")
-          .select("id, slug, client_name, description, category, image_url")
-          .eq("published", true)
-          .order("sort_order", { ascending: true })
-          .order("created_at", { ascending: false })
-          .limit(4),
-        supabase
-          .from("projects")
-          .select("client_name, testimonial, testimonial_author")
-          .eq("published", true)
-          .not("testimonial", "is", null),
-      ]);
+      const [{ data: featuredData }, { data: logoData }, { data: testimonialsData }] =
+        await Promise.all([
+          supabase
+            .from("projects")
+            .select("id, slug, client_name, description, category, image_url")
+            .eq("published", true)
+            .order("sort_order", { ascending: true })
+            .order("created_at", { ascending: false })
+            .limit(3),
+          supabase
+            .from("projects")
+            .select("id, slug, client_name, description, category, image_url")
+            .eq("published", true)
+            .order("sort_order", { ascending: true })
+            .limit(8),
+          supabase
+            .from("projects")
+            .select("client_name, testimonial, testimonial_author")
+            .eq("published", true)
+            .not("testimonial", "is", null),
+        ]);
       setFeatured(featuredData || []);
+      setLogos(logoData || []);
       setTestimonials((testimonialsData as Testimonial[]) || []);
     };
     fetchData();
   }, []);
 
-  // Auto-scroll testimonials
   useEffect(() => {
     if (!emblaApi || testimonials.length <= 1) return;
-    const interval = setInterval(() => emblaApi.scrollNext(), 5000);
+    const interval = setInterval(() => emblaApi.scrollNext(), 6000);
     return () => clearInterval(interval);
   }, [emblaApi, testimonials.length]);
+
+  const hero = featured[0];
+  const support = featured.slice(1, 3);
 
   return (
     <Layout>
       <SEOHead
-        keywords="design agency Ireland, web design, game development, print design, eflip AI, AI automation, branding, UI UX"
-
+        keywords="creative web design agency Ireland, high end web design Dublin, brand websites, ai for business Ireland, design agency Dublin, eflip"
         jsonLd={[
           {
             "@context": "https://schema.org",
@@ -123,22 +90,21 @@ const Index = () => {
             "name": "eFlip",
             "url": "https://eflip.ie",
             "logo": "https://eflip.ie/logo.png",
-            "description": "eFlip is an Irish design agency specialising in web design, game development, print media, and eflip AI — practical AI solutions for local businesses.",
+            "description":
+              "eFlip is an Irish creative design and AI studio building brand-grade websites for ambitious businesses across Ireland.",
+            "foundingDate": "2001",
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "customer service",
               "url": "https://eflip.ie/contact",
-              "availableLanguage": "English"
+              "availableLanguage": "English",
             },
-            "areaServed": {
-              "@type": "Country",
-              "name": "Ireland"
-            },
+            "areaServed": { "@type": "Country", "name": "Ireland" },
             "sameAs": [
               "https://instagram.com/eflip",
               "https://linkedin.com/company/eflip",
-              "https://x.com/eflip"
-            ]
+              "https://x.com/eflip",
+            ],
           },
           {
             "@context": "https://schema.org",
@@ -148,111 +114,253 @@ const Index = () => {
             "potentialAction": {
               "@type": "SearchAction",
               "target": "https://eflip.ie/portfolio?q={search_term_string}",
-              "query-input": "required name=search_term_string"
-            }
-          }
+              "query-input": "required name=search_term_string",
+            },
+          },
         ]}
       />
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <motion.img
-            src="/logo.png"
-            alt="eFlip — Creative Design Agency in Ireland"
-            className="h-24 md:h-32 lg:h-40 w-auto mx-auto mb-6"
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
-          <motion.div
-            className="overflow-hidden"
-            initial={{ width: 0 }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            <motion.p
-              className="text-lg md:text-xl text-muted-foreground tracking-[0.3em] mb-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-            >
-              DESIGN AGENCY — WE CREATE THE EXTRAORDINARY
-            </motion.p>
-          </motion.div>
-          <motion.div
+
+      {/* ═════════ HERO ═════════ */}
+      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+        {/* Subtle radial glow behind logo */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, hsl(var(--primary) / 0.08) 0%, transparent 60%)",
+          }}
+        />
+
+        <div className="container mx-auto px-4 text-center relative z-10 flex flex-col items-center">
+          <AnimatedLogo className="h-28 md:h-36 lg:h-44 w-28 md:w-36 lg:w-44 mb-10" />
+
+          <motion.h1
+            className="max-w-4xl text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
+            transition={{ delay: 1.4, duration: 0.7 }}
           >
-            <Button asChild size="lg" className="glow-orange text-base tracking-widest group">
-              <Link to="/portfolio">
-                VIEW OUR WORK
-                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+            Creative websites & AI for
+            <br />
+            Ireland's most <span className="text-primary">ambitious</span> brands.
+          </motion.h1>
+
+          <motion.p
+            className="text-xs md:text-sm text-muted-foreground tracking-[0.35em] uppercase mb-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.7, duration: 0.6 }}
+          >
+            A design & AI studio in Ireland · 25 years · 500+ projects
+          </motion.p>
+
+          <motion.div
+            className="flex flex-col sm:flex-row items-center gap-4"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.9, duration: 0.5 }}
+          >
+            <Button asChild size="lg" className="glow-orange text-sm tracking-widest group">
+              <Link to="/contact">
+                START A PROJECT
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={16} />
               </Link>
             </Button>
+            <Link
+              to="/portfolio"
+              className="text-xs tracking-[0.3em] text-muted-foreground hover:text-primary transition-colors uppercase story-link"
+            >
+              See selected work →
+            </Link>
           </motion.div>
         </div>
+
+        {/* Scroll cue */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.4, duration: 0.6 }}
+        >
+          <div className="w-px h-12 bg-gradient-to-b from-transparent via-primary/50 to-transparent animate-pulse" />
+        </motion.div>
       </section>
 
-      {/* Marquee Section */}
-      <section className="border-y border-border py-6 overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...services, ...services, ...services, ...services].map((s, i) => (
-            <span key={i} className="mx-8 text-2xl md:text-4xl font-bold tracking-widest text-muted-foreground/30">
-              {s}
-            </span>
-          ))}
+      {/* ═════════ TRUST STRIP — logos + testimonial + credentials ═════════ */}
+      <section className="border-y border-border bg-background/40 backdrop-blur-sm">
+        {/* Client logos marquee (desktop only) */}
+        {logos.length > 0 && (
+          <div className="border-b border-border/50 py-8 overflow-hidden hidden md:block">
+            <div className="flex animate-marquee whitespace-nowrap items-center">
+              {[...logos, ...logos].map((p, i) => (
+                <span
+                  key={`${p.id}-${i}`}
+                  className="mx-10 text-xl font-bold tracking-[0.3em] text-muted-foreground/40 hover:text-primary transition-colors"
+                >
+                  {p.client_name.toUpperCase()}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Testimonial */}
+        {testimonials.length > 0 && (
+          <div className="py-16 md:py-20">
+            <div className="container mx-auto px-4 max-w-3xl overflow-hidden" ref={emblaRef}>
+              <div className="flex">
+                {testimonials.map((t, i) => (
+                  <div key={i} className="flex-[0_0_100%] min-w-0 px-2">
+                    <div className="text-center">
+                      <Quote className="text-primary/30 mx-auto mb-6" size={32} />
+                      <blockquote className="text-lg md:text-2xl leading-relaxed tracking-wide text-foreground/90 mb-6 italic font-light">
+                        "{t.testimonial}"
+                      </blockquote>
+                      <p className="text-primary text-[10px] tracking-[0.35em] font-bold uppercase">
+                        — {(t.testimonial_author || t.client_name)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {testimonials.length > 1 && (
+                <div className="flex justify-center gap-2 mt-8">
+                  {testimonials.map((_, i) => (
+                    <button
+                      key={i}
+                      aria-label={`Show testimonial ${i + 1}`}
+                      className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30 hover:bg-primary transition-colors"
+                      onClick={() => emblaApi?.scrollTo(i)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Credentials strip */}
+        <div className="border-t border-border/50 py-6">
+          <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {CREDENTIALS.map((c) => (
+              <span
+                key={c}
+                className="text-[10px] md:text-xs tracking-[0.3em] text-muted-foreground"
+              >
+                {c}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Stats Counter */}
-      <StatsCounter />
-
-      {/* Featured Work */}
-      {featured.length > 0 && (
-        <section className="py-24">
+      {/* ═════════ FEATURED WORK — editorial 2-up ═════════ */}
+      {hero && (
+        <section className="py-24 md:py-32">
           <div className="container mx-auto px-4">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-widest text-center mb-4">
-                FEATURED <span className="text-primary">WORK</span>
-              </h2>
-              <p className="text-center text-muted-foreground tracking-wider mb-12 text-sm">
-                A SELECTION OF OUR LATEST PROJECTS
-              </p>
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div>
+                  <p className="text-[10px] tracking-[0.35em] text-primary mb-3 uppercase">
+                    Selected work
+                  </p>
+                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-2xl">
+                    The work speaks
+                    <br />
+                    for itself.
+                  </h2>
+                </div>
+                <Link
+                  to="/portfolio"
+                  className="text-xs tracking-[0.3em] text-muted-foreground hover:text-primary transition-colors uppercase story-link hidden md:inline-block"
+                >
+                  View all work →
+                </Link>
+              </div>
             </ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featured.map((project, i) => (
-                <ScrollReveal key={project.id} delay={i * 0.1}>
-                  <Link to={`/portfolio/${project.slug}`}>
-                    <motion.div
-                      className="group relative overflow-hidden bg-card project-card"
-                      whileHover={{ y: -8 }}
-                      transition={{ duration: 0.3 }}
+
+            {/* Big hero project */}
+            <ScrollReveal>
+              <Link to={`/portfolio/${hero.slug}`} className="block group mb-12">
+                <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-secondary border border-border">
+                  {hero.image_url ? (
+                    <img
+                      src={hero.image_url}
+                      alt={hero.client_name}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm tracking-widest">
+                      NO IMAGE
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+                    <Badge
+                      variant="outline"
+                      className="text-primary border-primary mb-3 text-[10px] tracking-[0.3em]"
                     >
-                      <div className="aspect-video bg-secondary overflow-hidden">
+                      {hero.category.toUpperCase()} · FEATURED
+                    </Badge>
+                    <h3 className="text-2xl md:text-4xl font-bold tracking-tight mb-2 group-hover:text-primary transition-colors">
+                      {hero.client_name}
+                    </h3>
+                    <p className="text-muted-foreground text-sm md:text-base max-w-2xl line-clamp-2">
+                      {hero.description}
+                    </p>
+                  </div>
+                  {/* Orange rule slide-in on hover */}
+                  <div className="absolute top-0 left-0 h-1 bg-primary w-0 group-hover:w-full transition-all duration-500" />
+                </div>
+              </Link>
+            </ScrollReveal>
+
+            {/* Support pair */}
+            {support.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                {support.map((project, i) => (
+                  <ScrollReveal key={project.id} delay={i * 0.1}>
+                    <Link to={`/portfolio/${project.slug}`} className="block group">
+                      <div className="relative aspect-[4/3] overflow-hidden bg-secondary border border-border mb-4">
                         {project.image_url ? (
-                          <img src={project.image_url} alt={project.client_name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                          <img
+                            src={project.image_url}
+                            alt={project.client_name}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm tracking-widest">NO IMAGE</div>
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm tracking-widest">
+                            NO IMAGE
+                          </div>
                         )}
+                        <div className="absolute top-0 left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-500" />
                       </div>
-                      <div className="p-5">
-                        <Badge variant="outline" className="text-primary border-primary mb-3 text-[10px] tracking-widest">
-                          {project.category.toUpperCase()}
-                        </Badge>
-                        <h3 className="text-base font-bold tracking-wider mb-2">{project.client_name.toUpperCase()}</h3>
-                        <p className="text-muted-foreground text-sm tracking-wider line-clamp-2">{project.description}</p>
-                      </div>
-                    </motion.div>
-                  </Link>
-                </ScrollReveal>
-              ))}
-            </div>
-            <div className="text-center mt-12">
-              <Button asChild size="lg" className="glow-orange tracking-widest group">
+                      <Badge
+                        variant="outline"
+                        className="text-primary border-primary mb-2 text-[9px] tracking-[0.3em]"
+                      >
+                        {project.category.toUpperCase()}
+                      </Badge>
+                      <h3 className="text-lg font-bold tracking-tight mb-1 group-hover:text-primary transition-colors">
+                        {project.client_name}
+                      </h3>
+                      <p className="text-muted-foreground text-sm line-clamp-2">
+                        {project.description}
+                      </p>
+                    </Link>
+                  </ScrollReveal>
+                ))}
+              </div>
+            )}
+
+            <div className="text-center mt-16">
+              <Button asChild size="lg" variant="outline" className="tracking-widest group">
                 <Link to="/portfolio">
                   VIEW ALL WORK
-                  <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={16} />
                 </Link>
               </Button>
             </div>
@@ -260,71 +368,34 @@ const Index = () => {
         </section>
       )}
 
-      {/* Testimonials Carousel */}
-      {testimonials.length > 0 && (
-        <section className="py-24 border-t border-border">
-          <div className="container mx-auto px-4">
-            <ScrollReveal>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-widest text-center mb-4">
-                WHAT OUR <span className="text-primary">CLIENTS</span> SAY
-              </h2>
-              <p className="text-center text-muted-foreground tracking-wider mb-12 text-sm">
-                REAL FEEDBACK FROM REAL PARTNERSHIPS
-              </p>
-            </ScrollReveal>
-            <div className="max-w-4xl mx-auto overflow-hidden" ref={emblaRef}>
-              <div className="flex">
-                {testimonials.map((t, i) => (
-                  <div key={i} className="flex-[0_0_100%] min-w-0 px-4">
-                    <div className="border border-primary/20 p-8 md:p-12 relative text-center">
-                      <Quote className="text-primary/20 mx-auto mb-6" size={40} />
-                      <blockquote className="text-muted-foreground italic tracking-wider text-sm md:text-base leading-relaxed mb-6">
-                        "{t.testimonial}"
-                      </blockquote>
-                      <p className="text-primary text-xs tracking-widest font-bold">
-                        — {(t.testimonial_author || t.client_name).toUpperCase()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {testimonials.length > 1 && (
-              <div className="flex justify-center gap-2 mt-6">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    className="w-2 h-2 rounded-full bg-muted-foreground/30 hover:bg-primary transition-colors"
-                    onClick={() => emblaApi?.scrollTo(i)}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-
-      {/* Teaser Section */}
-      <section className="py-24">
+      {/* ═════════ CLOSING CTA ═════════ */}
+      <section className="py-24 md:py-32 border-t border-border">
         <div className="container mx-auto px-4">
           <motion.div
             className="max-w-3xl mx-auto text-center"
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold tracking-widest mb-6">
-              WE <span className="text-primary">DESIGN</span> WHAT
-              <br />
-              OTHERS <span className="text-primary">DREAM</span>
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-sm tracking-wider">
-              FROM PIXEL-PERFECT WEBSITES TO IMMERSIVE GAME EXPERIENCES,
-              STUNNING PRINT MEDIA TO PRACTICAL EFLIP AI SOLUTIONS — WE BRING
-              YOUR VISION TO LIFE WITH BOLD, UNCOMPROMISING DESIGN.
+            <p className="text-[10px] tracking-[0.35em] text-primary mb-4 uppercase">
+              Start a project
             </p>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-8">
+              Ready to build something
+              <br />
+              <span className="text-primary">worth remembering?</span>
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base tracking-wide mb-10 max-w-xl mx-auto">
+              Tell us about your business and what you're trying to achieve.
+              We typically reply within 4 hours.
+            </p>
+            <Button asChild size="lg" className="glow-orange tracking-widest group">
+              <Link to="/contact">
+                GET IN TOUCH
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={16} />
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </section>
